@@ -1,5 +1,6 @@
 To do:
-	-Implement "range" between agents
+	-CLEAN UP THE CODEBASE SO IT CAN ACTUALLY BE WORKED WITH! PRIO 1, PRIO UNO!
+	-Implement "range" between agents ("x" value implemented)
 	-Implement "scrolling window" so that the simulation can be less "zoomed out"
 	-Implement "real" weapons (NO MORE RANDOM STATS!).
 		-Random a weapon for each entity, but create from a list of weapons (weaponhandler?)
@@ -11,10 +12,10 @@ To do:
 	-Implement line of sight / detection
 
 AIs to test and implement (in non-specific order)
-	-CBR (learn from other AIs?)
 	-Finite State Machine
 	-Decision Tree
 	-Behavioural Tree
+	-CBR (learn from other AIs?)
 
 To look at:
 	-Fuzzy Logic
