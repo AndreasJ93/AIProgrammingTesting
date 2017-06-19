@@ -7,7 +7,7 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		d2d->AddDataVector();
 
 		d2d->SetBrushColour(i, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
-		Agents.push_back(new BasicAI(rand() % 100 + 50));
+		Agents.push_back(new BasicAI(rand() % 100 + 50, cosf(rand() % 1000 / 50.0f) + rand() % 10 / 15.0f));
 	}
 }
 
@@ -42,8 +42,9 @@ void AISimulation::UpdateAIs()
 				uint16_t targetID = AI->GetTarget();
 				if (targetID != uint16_t(-1) && AI->Fire())
 				{
-					if ((rand() % 100) / 100.0f <= AI->GetAccuracy())
-						Agents[targetID]->TakeDamage(AI->GetDamage());
+					float distance = abs(AI->GetPosition() - Agents[targetID]->GetPosition());
+					if ((rand() % 100) / 100.0f <= AI->GetAccuracy(distance))
+						Agents[targetID]->TakeDamage(AI->GetDamage(distance));
 				}
 				break;
 			}

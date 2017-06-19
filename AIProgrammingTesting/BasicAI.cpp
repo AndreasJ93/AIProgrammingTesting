@@ -1,6 +1,6 @@
 #include "BasicAI.h"
 #include <algorithm>
-BasicAI::BasicAI(uint16_t life) : AIBase(life)
+BasicAI::BasicAI(uint16_t life, float position) : AIBase(life, position)
 {
 }
 
@@ -34,8 +34,9 @@ AllowedActions BasicAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int m
 		{
 			if (myID != ID && agents->GetLife())
 			{
-				float timeToKill = agents->GetLife() / (this->GetDamage()*this->myEntity->Accuracy());
-				float timeToKillMe = this->GetLife() / (agents->GetDamage()*agents->GetAccuracy());
+				float distance = abs(agents->GetPosition() - myEntity->Position());
+				float timeToKill = agents->GetLife() / (this->GetDamage(distance)*this->myEntity->Accuracy(distance));
+				float timeToKillMe = this->GetLife() / (agents->GetDamage(distance)*agents->GetAccuracy(distance));
 				float threat = (timeToKillMe + (3 * timeToKill)) / 4;
 				threatRatios.push_back(threatFloat(ID, threat));
 			}
