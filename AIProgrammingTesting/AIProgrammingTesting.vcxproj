@@ -139,6 +139,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AISimulation.cpp" />
+    <ClCompile Include="BasicAI.cpp" />
+    <ClCompile Include="BasicWeapon.cpp" />
+    <ClCompile Include="D2DClass.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="WeaponBase.cpp" />
+    <ClCompile Include="WindowClass.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AIBase.h" />
+    <ClInclude Include="AISimulation.h" />
+    <ClInclude Include="BasicAI.h" />
+    <ClInclude Include="BasicWeapon.h" />
+    <ClInclude Include="D2DClass.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="WeaponBase.h" />
+    <ClInclude Include="WindowClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
