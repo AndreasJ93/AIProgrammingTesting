@@ -1,0 +1,20 @@
+To do:
+	-Implement "scrolling window" so that the simulation can be less "zoomed out"
+	-Implement "real" weapons (NO MORE RANDOM STATS!).
+		-Random a weapon for each entity, but create from a list of weapons (weaponhandler?)
+	-Implement "range" between agents
+	-Implement "accuracy modification" for agents
+	-Implement decision algorithms (should I attack, OR heal? Are none of them a threat to me? Should I move towards an agent?)
+	-Implement movement and "hiding" spots
+	-Implement removal of hiding spots
+	-Implement a real map, let the agents find each other and shoot
+	-Implement line of sight / detection
+
+AIs to test and implement (in non-specific order)
+	-CBR (learn from other AIs?)
+	-Finite State Machine
+	-Decision Tree
+	-Behavioural Tree
+
+To look at:
+	-Fuzzy Logic

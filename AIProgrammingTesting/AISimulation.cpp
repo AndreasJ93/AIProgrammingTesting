@@ -16,7 +16,7 @@ bool AISimulation::Turn()
 	unsigned int ID = 0;
 	UpdateAIs();
 	AddPointsOnCurves();
-	AddSymbolsOnCurves();
+	//AddSymbolsOnCurves();
 	numberOfTurnsDone++;
 	return Done();
 }
@@ -42,8 +42,8 @@ void AISimulation::UpdateAIs()
 				uint16_t targetID = AI->GetTarget();
 				if (targetID != uint16_t(-1) && AI->Fire())
 				{
-					//if (rand() % 100 <= AI->GetAccuracy())
-					Agents[targetID]->TakeDamage(AI->GetDamage());
+					if ((rand() % 100) / 100.0f <= AI->GetAccuracy())
+						Agents[targetID]->TakeDamage(AI->GetDamage());
 				}
 				break;
 			}
