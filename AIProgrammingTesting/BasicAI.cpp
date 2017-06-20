@@ -2,6 +2,7 @@
 #include <algorithm>
 BasicAI::BasicAI(uint16_t life, float position) : AIBase(life, position)
 {
+	//Add entity creation here!
 }
 
 BasicAI::~BasicAI()
@@ -10,6 +11,7 @@ BasicAI::~BasicAI()
 
 AllowedActions BasicAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int myID)
 {
+	//COMMENT THIS AI IN DETAIL!
 	if (myEntity->GetLife() < 15)
 	{
 		if ((rand() % 5) == 0)

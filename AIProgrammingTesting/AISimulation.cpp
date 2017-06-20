@@ -7,7 +7,8 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		d2d->AddDataVector();
 
 		d2d->SetBrushColour(i, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
-		Agents.push_back(new BasicAI(rand() % 100 + 50, cosf(rand() % 1000 / 50.0f) + rand() % 10 / 15.0f));
+		//TO DO; place out the AIs in a non-random way. Read from file? (JSON?)
+		Agents.push_back(new BasicAI(rand() % 100 + 50, cosf(rand() % 100 / 50.0f) + rand() % 10 / 15.0f));
 	}
 }
 
@@ -16,7 +17,7 @@ bool AISimulation::Turn()
 	unsigned int ID = 0;
 	UpdateAIs();
 	AddPointsOnCurves();
-	//AddSymbolsOnCurves();
+	AddSymbolsOnCurves();
 	numberOfTurnsDone++;
 	return Done();
 }
@@ -137,6 +138,7 @@ void AISimulation::RunSimulation(int nrOfAgents)
 	InitializeAIs(nrOfAgents);
 	while (Turn())
 	{
+		//ADD function to add text -> Write out number of turns and number of AIs still alive!
 	}
 	d2d->UpdateAll();
 	d2d->Draw();

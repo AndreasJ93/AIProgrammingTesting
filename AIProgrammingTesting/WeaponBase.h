@@ -7,14 +7,12 @@ class WeaponBase
 public:
 	WeaponBase() {};
 	virtual ~WeaponBase();
-	virtual uint16_t Damage(float distanceToTarget) { return damage - (pow(distanceToTarget, damageDecayExponent) / damageDevisor); };
+	virtual float Damage(float distanceToTarget);
 	virtual bool Fire(); //Returns false if firing failed (out of ammo?)
 	virtual void Reload();
-	virtual bool ReloadingDone() {
-		return roundsToReloadFinished == 0 ? true : false;
-	};
-	virtual uint16_t CurrentAmmo() { return currentAmmo; }; //Return the current ammo
-	virtual float Accuracy(float distanceToTarget) { return accuracy - (pow(distanceToTarget, accuracyDecayExponent) / accuracyDevisor); }; //Return the accuracy of the weapon
+	virtual bool ReloadingDone();
+	virtual uint16_t CurrentAmmo(); //Return the current ammo
+	virtual float Accuracy(float distanceToTarget);
 protected:
 	uint16_t damage;
 	uint16_t currentAmmo;

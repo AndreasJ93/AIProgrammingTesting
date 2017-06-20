@@ -7,6 +7,10 @@ BasicWeapon::BasicWeapon(uint16_t damage, uint16_t maxAmmo, uint8_t reloadTime, 
 	this->reloadTime = reloadTime;
 	this->roundsToReloadFinished = 0;
 	this->accuracy = accuracy;
+	this->damageDevisor = damageDevisor;
+	this->damageDecayExponent = damageDecayExponent;
+	this->accuracyDecayExponent = accuracyDecayExponent;
+	this->accuracyDevisor = accuracyDevisor;
 }
 
 BasicWeapon::~BasicWeapon()
