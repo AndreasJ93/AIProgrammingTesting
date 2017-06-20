@@ -15,8 +15,15 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
 	srand(time(0));
 
-	AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-	simulation.RunSimulation(25);
+	D2DClass d2d(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+
+	while (d2d.run())
+	{
+
+	}
+
+	//AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	//simulation.RunSimulation(25);
 
 	return 0;
 }

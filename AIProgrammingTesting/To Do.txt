@@ -1,5 +1,6 @@
 To do:
-	-CLEAN UP THE CODEBASE SO IT CAN ACTUALLY BE WORKED WITH! PRIO 1, PRIO UNO!
+	*DONE: CLEAN UP THE CODEBASE SO IT CAN ACTUALLY BE WORKED WITH! PRIO 1, PRIO UNO!
+	-PRINT TEXT: Implement a way to prin text so that one can follow the number of killed agents in real time, without waiting	
 	-Implement "range" between agents ("x" value implemented)
 	-Implement "scrolling window" so that the simulation can be less "zoomed out"
 	-Implement "real" weapons (NO MORE RANDOM STATS!).

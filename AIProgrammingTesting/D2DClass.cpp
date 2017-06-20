@@ -6,7 +6,7 @@ D2DClass::D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	pRenderTarget = NULL;
 	pBrush = NULL;
-	pPathGeometry = NULL;
+	text = "";
 	// this struct holds information for the window class
 	WNDCLASSEX wc;
 
@@ -185,6 +185,11 @@ void D2DClass::AddTriangle(UINT ID, float topX, float topY, float leftX, float l
 		temp.fill = fill;
 		pGeometry[ID]->figureGeometry.push_back(temp);
 	}*/
+}
+
+void D2DClass::TestingPrintText(std::string text)
+{
+	this->text = text;
 }
 
 D2DClass::BrushColour D2DClass::RandomBrushColour(UINT8 hueLowerLimit, UINT hueUpperLimit, UINT saturationLowerLimit, UINT saturationUpperLimit, UINT valueLowerLimit, UINT valueUpperLimit)
@@ -516,7 +521,8 @@ void D2DClass::OnPaint()
 		pRenderTarget->BeginDraw();
 
 		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-		pRenderTarget->DrawGeometry(pPathGeometry, pBrush, 2.0f);
+
+		//READ UP ON: pRenderTarget->DrawTextW(wchar_t(text.c_str()), text.size())
 
 		hr = pRenderTarget->EndDraw();
 		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)

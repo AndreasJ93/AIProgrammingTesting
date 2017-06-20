@@ -20,7 +20,7 @@ private:
 	/*D2D Specific*/
 	ID2D1Factory            *pFactory;
 	ID2D1HwndRenderTarget   *pRenderTarget;
-	ID2D1PathGeometry		*pPathGeometry;
+	std::string				text;
 	ID2D1SolidColorBrush	*pBrush;
 
 	/*Window Specific*/
@@ -75,6 +75,7 @@ public:
 	void	AddCircle(UINT ID, float originX, float originY, float radius, bool fill = true);
 	void	AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill = true);
 	void	AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill = true);
+	void	TestingPrintText(std::string text);
 
 	BrushColour	RandomBrushColour(UINT8 hueLowerLimit = 0, UINT hueUpperLimit = 100, UINT saturationLowerLimit = 0, UINT saturationUpperLimit = 100, UINT valueLowerLimit = 0, UINT valueUpperLimit = 100);
 
