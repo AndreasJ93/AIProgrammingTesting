@@ -1,10 +1,10 @@
 #pragma once
 #include "AIBase.h"
-class BasicAI :
+class UtilityBasedAI :
 	public AIBase
 {
 public:
-	BasicAI(uint16_t life, float positionX, float positionY);
-	~BasicAI();
+	UtilityBasedAI(uint16_t life, float positionX, float positionY);
+	~UtilityBasedAI();
 	AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID);
 };

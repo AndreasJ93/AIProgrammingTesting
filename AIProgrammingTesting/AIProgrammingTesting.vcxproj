@@ -141,7 +141,7 @@
   <ItemGroup>
     <ClCompile Include="AIBase.cpp" />
     <ClCompile Include="AISimulation.cpp" />
-    <ClCompile Include="BasicAI.cpp" />
+    <ClCompile Include="UtilityBasedAI.cpp" />
     <ClCompile Include="BasicWeapon.cpp" />
     <ClCompile Include="D2DClass.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -152,7 +152,7 @@
   <ItemGroup>
     <ClInclude Include="AIBase.h" />
     <ClInclude Include="AISimulation.h" />
-    <ClInclude Include="BasicAI.h" />
+    <ClInclude Include="UtilityBasedAI.h" />
     <ClInclude Include="BasicWeapon.h" />
     <ClInclude Include="D2DClass.h" />
     <ClInclude Include="Entity.h" />

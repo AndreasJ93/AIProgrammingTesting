@@ -3,6 +3,7 @@ To do:
 	*DONE: PRINT TEXT: Implement a way to prin text so that one can follow the number of killed agents in real time, without waiting	
 	*DONE: Implement "range" between agents ("x" value implemented)
 	-Clean Up the codebase every now and then.
+	-Refactor D2D class so that the write part is outside of the D2D class?
 	-Implement "scrolling window" so that the simulation can be less "zoomed out"
 	-Implement "real" weapons (NO MORE RANDOM STATS!).
 		-Random a weapon for each entity, but create from a list of weapons (weaponhandler?)

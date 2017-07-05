@@ -1,15 +1,15 @@
-#include "BasicAI.h"
+#include "UtilityBasedAI.h"
 #include <algorithm>
-BasicAI::BasicAI(uint16_t life, float positionX, float positionY) : AIBase(life, positionX, positionY)
+UtilityBasedAI::UtilityBasedAI(uint16_t life, float positionX, float positionY) : AIBase(life, positionX, positionY)
 {
 	//Add entity creation here!
 }
 
-BasicAI::~BasicAI()
+UtilityBasedAI::~UtilityBasedAI()
 {
 }
 
-AllowedActions BasicAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int myID)
+AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int myID)
 {
 	//COMMENT THIS AI IN DETAIL!
 	if (myEntity->GetLife() < 15)

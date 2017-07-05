@@ -1,5 +1,5 @@
 #include "AISimulation.h"
-#include "BasicAI.h"
+#include "UtilityBasedAI.h"
 #include <string>
 void AISimulation::InitializeAIs(int nrOfAgents)
 {
@@ -9,7 +9,7 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 
 		d2d->SetBrushColour(i, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
 		//TO DO; place out the AIs in a non-random way. Read from file? (JSON?)
-		Agents.push_back(new BasicAI(rand() % 100 + 50, cosf(rand() % 100 / 50.0f), cosf(rand() % 100 / 50.0f)));
+		Agents.push_back(new UtilityBasedAI(rand() % 100 + 50, cosf(rand() % 100 / 50.0f), cosf(rand() % 100 / 50.0f)));
 	}
 }
 

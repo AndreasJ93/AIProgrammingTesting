@@ -13,60 +13,84 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Agents">
+      <UniqueIdentifier>{b5d416c7-affc-4d93-8772-6ecdefee071c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents">
+      <UniqueIdentifier>{941e6db1-4b0b-4642-9a86-7400d2ef8dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\D2D">
+      <UniqueIdentifier>{58d74c43-e6b7-401c-a72b-0b3a54563e33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Weapons">
+      <UniqueIdentifier>{ee0ee9d3-8dfc-4b1c-9efb-d134acf98176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\D2D">
+      <UniqueIdentifier>{954016b0-bdd9-4733-8e57-b6549013be6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Weapons">
+      <UniqueIdentifier>{3fb0a467-adbb-4a2a-ba71-c8d1ed77cd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents\Utility Based">
+      <UniqueIdentifier>{ecb01451-2408-4bfd-bd3e-d79a235db070}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Agents\Utility Based">
+      <UniqueIdentifier>{e2cf35f1-3644-4ab3-8712-69ce179486f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WindowClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D2DClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AISimulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicWeapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicAI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AIBase.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Agents</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowClass.cpp">
+      <Filter>Source Files\D2D</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DClass.cpp">
+      <Filter>Source Files\D2D</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBase.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicWeapon.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityBasedAI.cpp">
+      <Filter>Source Files\Agents\Utility Based</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="D2DClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AISimulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AIBase.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowClass.h">
+      <Filter>Header Files\D2D</Filter>
+    </ClInclude>
+    <ClInclude Include="D2DClass.h">
+      <Filter>Header Files\D2D</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponBase.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Agents</Filter>
     </ClInclude>
     <ClInclude Include="BasicWeapon.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="BasicAI.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="WeaponBase.h">
+      <Filter>Header Files\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityBasedAI.h">
+      <Filter>Header Files\Agents\Utility Based</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
