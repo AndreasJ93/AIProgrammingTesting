@@ -1,6 +1,6 @@
 #include "BasicAI.h"
 #include <algorithm>
-BasicAI::BasicAI(uint16_t life, float position) : AIBase(life, position)
+BasicAI::BasicAI(uint16_t life, float positionX, float positionY) : AIBase(life, positionX, positionY)
 {
 	//Add entity creation here!
 }
@@ -36,7 +36,7 @@ AllowedActions BasicAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int m
 		{
 			if (myID != ID && agents->GetLife())
 			{
-				float distance = abs(agents->GetPosition() - myEntity->Position());
+				float distance = sqrt(pow(agents->GetPositionX() - myEntity->PositionX(), 2) + pow(agents->GetPositionY() - myEntity->PositionY(), 2));
 				float timeToKill = agents->GetLife() / (this->GetDamage(distance)*this->myEntity->Accuracy(distance));
 				float timeToKillMe = this->GetLife() / (agents->GetDamage(distance)*agents->GetAccuracy(distance));
 				float threat = (timeToKillMe + (3 * timeToKill)) / 4;

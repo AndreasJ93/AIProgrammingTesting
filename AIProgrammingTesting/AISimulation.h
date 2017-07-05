@@ -19,6 +19,7 @@ private:
 	D2DClass *d2d;
 	std::vector<AIBase*> Agents;
 	unsigned int numberOfTurnsDone;
+	UINT nrOfAgentsAlive = 0;
 public:
 	AISimulation(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
 	~AISimulation();

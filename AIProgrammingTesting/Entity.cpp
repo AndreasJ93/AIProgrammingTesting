@@ -1,51 +1,56 @@
 #include "Entity.h"
 
-Entity::Entity(float life, float position) {
+Entity::Entity(float life, float positionX, float positionY) {
 	this->life = life;
-	this->position = position;
-	
+	this->positionX = positionX;
+	this->positionY = positionY;
+
 	equipedWeapon = new BasicWeapon(100, 5, 2, 1, 1, 1, 1, 1);
 	accuracyModifier = 0;//(rand() % 5) / 100.0f;
 }
-float Entity::GetLife() 
-{ 
-	return life; 
+float Entity::GetLife()
+{
+	return life;
 };
-float Entity::Position() 
-{ 
-	return position; 
+float Entity::PositionX()
+{
+	return positionX;
 };
-void Entity::Heal(uint16_t damageToHeal) 
-{ 
-	life += damageToHeal; 
+float Entity::PositionY()
+{
+	return positionY;
 };
-bool Entity::Fire() 
-{ 
-	return equipedWeapon->Fire(); 
+void Entity::Heal(uint16_t damageToHeal)
+{
+	life += damageToHeal;
 };
-void Entity::Reload() 
-{ 
-	equipedWeapon->Reload(); 
+bool Entity::Fire()
+{
+	return equipedWeapon->Fire();
+};
+void Entity::Reload()
+{
+	equipedWeapon->Reload();
 }
-bool Entity::Reloading() 
-{ 
-	return equipedWeapon->ReloadingDone(); 
+bool Entity::Reloading()
+{
+	return equipedWeapon->ReloadingDone();
 };
-float Entity::Accuracy(float distanceToTarget) 
-{ 
-	return equipedWeapon->Accuracy(distanceToTarget) + accuracyModifier; 
+float Entity::Accuracy(float distanceToTarget)
+{
+	return equipedWeapon->Accuracy(distanceToTarget) + accuracyModifier;
 };
-float Entity::Damage(float distanceToTarget) 
-{ 
-	return equipedWeapon->Damage(distanceToTarget); 
+float Entity::Damage(float distanceToTarget)
+{
+	return equipedWeapon->Damage(distanceToTarget);
 }
-WeaponBase* Entity::EquipedWeapon() 
-{ 
-	return equipedWeapon; 
+WeaponBase* Entity::EquipedWeapon()
+{
+	return equipedWeapon;
 };
-std::vector<WeaponBase*> &Entity::GetAllWeapons() 
-{ 
-	return weapons; 
+std::vector<WeaponBase*> &Entity::GetAllWeapons()
+{
+	return weapons;
 };
 void Entity::TakeDamage(float damage) {
 	if (life - damage < 0)

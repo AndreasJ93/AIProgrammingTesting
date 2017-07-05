@@ -4,7 +4,7 @@ class BasicAI :
 	public AIBase
 {
 public:
-	BasicAI(uint16_t life, float position);
+	BasicAI(uint16_t life, float positionX, float positionY);
 	~BasicAI();
 	AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID);
 };

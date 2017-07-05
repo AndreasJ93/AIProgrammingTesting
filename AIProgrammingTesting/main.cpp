@@ -6,6 +6,7 @@
 #include <cmath>
 #include <random>
 #include <time.h>
+#include <string>
 // the WindowProc function prototype
 
 int WINAPI WinMain(HINSTANCE hInstance,
@@ -15,14 +16,19 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
 	srand(time(0));
 
-	D2DClass d2d(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-
+	/*D2DClass d2d(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	int counter = 0;
+	UINT textID = d2d.AddText(std::string("Counter: " + std::to_string(counter)), 0.0f, 0.0f);
 	while (d2d.run())
 	{
-	}
+		d2d.Draw();
+		Sleep(10);
+		counter++;
+		d2d.UpdateText(textID, std::string("Counter: " + std::to_string(counter)));
+	}*/
 
-	//AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-	//simulation.RunSimulation(2000);
+	AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	simulation.RunSimulation(50);
 
 	return 0;
 }

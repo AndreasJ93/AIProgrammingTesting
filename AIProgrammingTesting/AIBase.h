@@ -14,7 +14,7 @@ enum AllowedActions {
 class AIBase
 {
 public:
-	AIBase(uint16_t life, float position);
+	AIBase(uint16_t life, float positionX, float positionY);
 	virtual ~AIBase();
 	virtual AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID) = 0;
 	AllowedActions GetLastPerformedAction();
@@ -26,7 +26,8 @@ public:
 	uint16_t GetTarget();
 	float GetAccuracy(float distanceToTarget);
 	void TakeDamage(uint16_t damage);
-	float GetPosition();
+	float GetPositionX();
+	float GetPositionY();
 protected:
 	Entity* myEntity;
 	AllowedActions lastAction;

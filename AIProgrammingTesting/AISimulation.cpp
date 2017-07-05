@@ -1,5 +1,6 @@
 #include "AISimulation.h"
 #include "BasicAI.h"
+#include <string>
 void AISimulation::InitializeAIs(int nrOfAgents)
 {
 	for (int i = 0; i < nrOfAgents; i++)
@@ -8,7 +9,7 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 
 		d2d->SetBrushColour(i, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
 		//TO DO; place out the AIs in a non-random way. Read from file? (JSON?)
-		Agents.push_back(new BasicAI(rand() % 100 + 50, cosf(rand() % 100 / 50.0f) + rand() % 10 / 15.0f));
+		Agents.push_back(new BasicAI(rand() % 100 + 50, cosf(rand() % 100 / 50.0f), cosf(rand() % 100 / 50.0f)));
 	}
 }
 
@@ -43,7 +44,7 @@ void AISimulation::UpdateAIs()
 				uint16_t targetID = AI->GetTarget();
 				if (targetID != uint16_t(-1) && AI->Fire())
 				{
-					float distance = abs(AI->GetPosition() - Agents[targetID]->GetPosition());
+					float distance = sqrt(pow(AI->GetPositionX() - Agents[targetID]->GetPositionX(), 2) + pow(AI->GetPositionY() - Agents[targetID]->GetPositionY(), 2));
 					if ((rand() % 100) / 100.0f <= AI->GetAccuracy(distance))
 						Agents[targetID]->TakeDamage(AI->GetDamage(distance));
 				}
@@ -112,7 +113,7 @@ void AISimulation::AddSymbolsOnCurves()
 
 bool AISimulation::Done()
 {
-	UINT nrOfAgentsAlive = 0;
+	nrOfAgentsAlive = 0;
 	for (auto &AI : Agents)
 	{
 		if (AI->GetLife())
@@ -135,11 +136,17 @@ AISimulation::~AISimulation()
 
 void AISimulation::RunSimulation(int nrOfAgents)
 {
+	UINT numberOfTurnsID = d2d->AddText(std::string("Number of turns: " + std::to_string(numberOfTurnsDone)), 0.0f, 0.0f);
+	UINT agentsAliveID = d2d->AddText(std::string("Agents Alive: " + std::to_string(nrOfAgents)), 250.0f, 0.0f);
 	InitializeAIs(nrOfAgents);
 	while (Turn())
 	{
-		//ADD function to add text -> Write out number of turns and number of AIs still alive!
+		d2d->DrawTextOnly();
+		d2d->UpdateText(numberOfTurnsID, std::string("Number of turns: " + std::to_string(numberOfTurnsDone)));
+		d2d->UpdateText(agentsAliveID, std::string("Agents Alive: " + std::to_string(nrOfAgentsAlive)));
 	}
+	d2d->UpdateText(numberOfTurnsID, std::string("Number of turns: " + std::to_string(numberOfTurnsDone)));
+	d2d->UpdateText(agentsAliveID, std::string("Agents Alive: " + std::to_string(nrOfAgentsAlive)));
 	d2d->UpdateAll();
 	d2d->Draw();
 	while (d2d->run())

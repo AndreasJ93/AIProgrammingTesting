@@ -6,7 +6,6 @@ D2DClass::D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	pRenderTarget = NULL;
 	pBrush = NULL;
-	text = "";
 	// this struct holds information for the window class
 	WNDCLASSEX wc;
 
@@ -43,6 +42,7 @@ D2DClass::D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(hWnd, nCmdShow);
 
 	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory);
+	CreateDirectWriteFactory();
 	CreateGraphicsResources();
 	CalculateLayout();
 }
@@ -55,6 +55,11 @@ D2DClass::~D2DClass()
 		SafeRelease(&(i->pathGeometry));
 		SafeRelease(&(i->brush));
 		delete i;
+	}
+	for (auto text : texts)
+	{
+		SafeRelease(&(text.Brush));
+		SafeRelease(&(text.TextLayout));
 	}
 }
 
@@ -187,9 +192,44 @@ void D2DClass::AddTriangle(UINT ID, float topX, float topY, float leftX, float l
 	}*/
 }
 
-void D2DClass::TestingPrintText(std::string text)
+UINT D2DClass::AddText(std::string text, float xPosition, float yPosition)
 {
-	this->text = text;
+	std::wstring wTest = std::wstring(text.begin(), text.end()).c_str();
+	Text toAdd;
+
+	pWriteFactory->CreateTextLayout(wTest.c_str(),
+		text.size(),
+		pTextFormat,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
+		&toAdd.TextLayout);
+
+	toAdd.Position = D2D1::Point2F(xPosition, yPosition);
+	const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
+	pRenderTarget->CreateSolidColorBrush(color, &toAdd.Brush);
+
+	texts.push_back(toAdd);
+	return texts.size() - 1;
+}
+
+void D2DClass::UpdateText(UINT ID, std::string text)
+{
+	std::wstring wTest = std::wstring(text.begin(), text.end()).c_str();
+	Text toAdd;
+
+	SafeRelease(&texts[ID].TextLayout);
+
+	pWriteFactory->CreateTextLayout(wTest.c_str(),
+		text.size(),
+		pTextFormat,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
+		&texts[ID].TextLayout);
+}
+
+void D2DClass::UpdateTextPosition(UINT ID, float xPosition, float yPosition)
+{
+	texts[ID].Position = D2D1::Point2F(xPosition, yPosition);
 }
 
 D2DClass::BrushColour D2DClass::RandomBrushColour(UINT8 hueLowerLimit, UINT hueUpperLimit, UINT saturationLowerLimit, UINT saturationUpperLimit, UINT valueLowerLimit, UINT valueUpperLimit)
@@ -364,80 +404,45 @@ void D2DClass::Draw()
 			}
 		}
 
+		for (auto text : texts)
+			pRenderTarget->DrawTextLayout(text.Position, text.TextLayout, text.Brush);
+
 		hr = pRenderTarget->EndDraw();
 		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
 		{
 			DiscardGraphicsResources();
 		}
+
 		EndPaint(hWnd, &ps);
 	}
 }
 
-//void D2DClass::AddPoint(float newPoint, int maxNrOfPoints, float highestValue)
-//{
-//	if (testing.size() == maxNrOfPoints)
-//	{
-//		testing.pop();
-//	}
-//	testing.push(newPoint);
-//
-//	float *temp = new float[maxNrOfPoints];
-//	int size = testing.size();
-//
-//	for (int i = 0; i < size; i++)
-//	{
-//		temp[i] = testing.front();
-//		testing.pop();
-//	}
-//	for (int i = 0; i < size; i++)
-//	{
-//		testing.push(temp[i]);
-//	}
-//
-//	float *normalizedValues = new float[size];
-//	for (int i = 0; i < size; i++)
-//	{
-//		normalizedValues[i] = abs((temp[i] * 1.0f / highestValue)*(height - 30.0f));
-//	}
-//	ID2D1GeometrySink *dataSink = nullptr;
-//	SafeRelease(&pPathGeometry);
-//	HRESULT hr = pFactory->CreatePathGeometry(&pPathGeometry);
-//
-//	if (SUCCEEDED(hr))
-//	{
-//		hr = pPathGeometry->Open(&dataSink);
-//		if (SUCCEEDED(hr))
-//		{
-//			dataSink->BeginFigure(
-//				D2D1::Point2F(25.0f, height),
-//				D2D1_FIGURE_BEGIN_FILLED
-//			);
-//			float segmentWidth = (width*1.0f - 50.0f) / size;
-//			size;
-//			for (int i = 0; i < size; i++)
-//			{
-//				dataSink->AddLine(D2D1::Point2F(25.0f + i*segmentWidth,
-//					height - normalizedValues[i]));
-//
-//				/*dataSink->AddLine(D2D1::Point2F(25.0f + (i + 1)*segmentWidth,
-//				height - normalizedValues[i]));*/
-//
-//				/*dataSink->AddLine(D2D1::Point2F(25.0f + (i + 1)*segmentWidth,
-//				height));*/
-//			}
-//			dataSink->AddLine(D2D1::Point2F(width - 25.0f,
-//				height));
-//			dataSink->EndFigure(D2D1_FIGURE_END_OPEN);
-//			hr = dataSink->Close();
-//		}
-//
-//		SafeRelease(&dataSink);
-//	}
-//	delete[] normalizedValues;
-//	delete[] temp;
-//	OnPaint();
-//}
+void D2DClass::DrawTextOnly()
+{
+	HRESULT hr = CreateGraphicsResources();
+	if (SUCCEEDED(hr))
+	{
+		float segmentWidth = (width*1.0f) / normalizationValues.first;
+		float segmentHeight = (height*1.0f - 20.f) / normalizationValues.second;
+		float ratio = normalizationValues.first / normalizationValues.second;
+		PAINTSTRUCT ps;
+		BeginPaint(hWnd, &ps);
 
+		pRenderTarget->BeginDraw();
+
+		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+		for (auto text : texts)
+			pRenderTarget->DrawTextLayout(text.Position, text.TextLayout, text.Brush);
+
+		hr = pRenderTarget->EndDraw();
+		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
+		{
+			DiscardGraphicsResources();
+		}
+
+		EndPaint(hWnd, &ps);
+	}
+}
 LRESULT D2DClass::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	// sort through and find what code to run for the message given
@@ -493,8 +498,6 @@ HRESULT D2DClass::CreateGraphicsResources()
 
 		if (SUCCEEDED(hr))
 		{
-			const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
-			hr = pRenderTarget->CreateSolidColorBrush(color, &pBrush);
 			if (SUCCEEDED(hr))
 			{
 				CalculateLayout();
@@ -546,4 +549,46 @@ void D2DClass::Resize()
 		CalculateLayout();
 		InvalidateRect(hWnd, NULL, FALSE);
 	}
+}
+
+void D2DClass::CreateDirectWriteFactory()
+{
+	HRESULT hr = DWriteCreateFactory(
+		DWRITE_FACTORY_TYPE_SHARED,
+		__uuidof(IDWriteFactory),
+		reinterpret_cast<IUnknown**>(&pWriteFactory)
+	);
+
+	pFontCollection = NULL;
+
+	// Get the system font collection.
+	if (SUCCEEDED(hr))
+	{
+		hr = pWriteFactory->GetSystemFontCollection(&pFontCollection);
+	}
+
+	UINT32 familyCount = 0;
+
+	// Get the number of font families in the collection.
+	if (SUCCEEDED(hr))
+	{
+		familyCount = pFontCollection->GetFontFamilyCount();
+	}
+
+	FLOAT dpiX, dpiY;
+
+	pFactory->GetDesktopDpi(&dpiX, &dpiY);
+	float DPIScaleX = 1.0f;
+	float DPIScaleY = 1.0f;
+	DPIScaleX = dpiX / 96.0f;
+	DPIScaleY = dpiY / 96.0f;
+
+	pWriteFactory->CreateTextFormat(L"Arial",
+		pFontCollection,
+		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		16.f,
+		L"Test",
+		&pTextFormat);
 }
