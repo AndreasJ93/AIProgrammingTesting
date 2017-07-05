@@ -19,11 +19,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	while (d2d.run())
 	{
-
 	}
 
 	//AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-	//simulation.RunSimulation(25);
+	//simulation.RunSimulation(2000);
 
 	return 0;
 }
