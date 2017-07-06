@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	}*/
 
 	AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-	simulation.RunSimulation(50);
+	simulation.RunSimulation(250);
 
 	return 0;
 }

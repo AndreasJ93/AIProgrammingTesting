@@ -9,7 +9,10 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 
 		d2d->SetBrushColour(i, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
 		//TO DO; place out the AIs in a non-random way. Read from file? (JSON?)
-		Agents.push_back(new UtilityBasedAI(rand() % 100 + 50, cosf(rand() % 100 / 50.0f), cosf(rand() % 100 / 50.0f)));
+		float dirtyFix = 0.001f;
+		float posX = abs(cosf(rand() % 100 + i*rand() % 50)) * (rand() % 2 - 1);
+		float posY = abs(cosf(rand() % 100 + i*rand() % 50)) * (rand() % 2 - 1);
+		Agents.push_back(new UtilityBasedAI(rand() % 1000 + 250, posX, posY));
 	}
 }
 
@@ -45,7 +48,7 @@ void AISimulation::UpdateAIs()
 				if (targetID != uint16_t(-1) && AI->Fire())
 				{
 					float distance = sqrt(pow(AI->GetPositionX() - Agents[targetID]->GetPositionX(), 2) + pow(AI->GetPositionY() - Agents[targetID]->GetPositionY(), 2));
-					if ((rand() % 100) / 100.0f <= AI->GetAccuracy(distance))
+					if (((rand() % 10000) / 100.0f) / 100.0f <= AI->GetAccuracy(distance))
 						Agents[targetID]->TakeDamage(AI->GetDamage(distance));
 				}
 				break;
@@ -59,7 +62,7 @@ void AISimulation::UpdateAIs()
 			case AllowedActions::ACTION_HEAL:
 			{
 				//Perform the healing action
-				AI->Heal(rand() % 5);
+				AI->Heal(rand() % 50);
 				break;
 			}
 			}
@@ -94,15 +97,15 @@ void AISimulation::AddSymbolsOnCurves()
 			}
 			case AllowedActions::ACTION_RELOAD:
 			{
-				d2d->AddCircle(ID, numberOfTurnsDone, AI->GetLife(), 2.5f);
+				d2d->AddCircle(ID, numberOfTurnsDone, AI->GetLife(), .5f);
 				break;
 			}
 			case AllowedActions::ACTION_HEAL:
 			{
 				d2d->AddRect(ID, float(numberOfTurnsDone),
 					float(AI->GetLife()),
-					2.5f,
-					2.5f);
+					.5f,
+					.5f);
 				break;
 			}
 			}

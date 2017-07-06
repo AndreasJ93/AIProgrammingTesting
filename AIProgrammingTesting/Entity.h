@@ -1,7 +1,6 @@
 #pragma once
 
 #include "WeaponBase.h"
-#include "BasicWeapon.h"
 #include <vector>
 class Entity
 {

@@ -66,6 +66,18 @@
     <ClCompile Include="UtilityBasedAI.cpp">
       <Filter>Source Files\Agents\Utility Based</Filter>
     </ClCompile>
+    <ClCompile Include="AutomaticWeapon.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="PistolWeapon.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotgunWeapon.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketLauncherWeapon.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISimulation.h">
@@ -91,6 +103,18 @@
     </ClInclude>
     <ClInclude Include="UtilityBasedAI.h">
       <Filter>Header Files\Agents\Utility Based</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomaticWeapon.h">
+      <Filter>Header Files\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="PistolWeapon.h">
+      <Filter>Header Files\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotgunWeapon.h">
+      <Filter>Header Files\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="RocketLauncherWeapon.h">
+      <Filter>Header Files\Weapons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

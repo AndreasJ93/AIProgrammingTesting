@@ -1,12 +1,31 @@
 #include "Entity.h"
+#include "BasicWeapon.h"
+#include "AutomaticWeapon.h"
+#include "PistolWeapon.h"
+#include "RocketLauncherWeapon.h"
+#include "ShotgunWeapon.h"
 
 Entity::Entity(float life, float positionX, float positionY) {
 	this->life = life;
 	this->positionX = positionX;
 	this->positionY = positionY;
 
-	equipedWeapon = new BasicWeapon(100, 5, 2, 1, 1, 1, 1, 1);
-	accuracyModifier = 0;//(rand() % 5) / 100.0f;
+	switch (rand() % 4)
+	{
+	case 0:
+		equipedWeapon = new AutomaticWeapon();
+		break;
+	case 1:
+		equipedWeapon = new PistolWeapon();
+		break;
+	case 2:
+		equipedWeapon = new RocketLauncherWeapon();
+		break;
+	case 3:
+		equipedWeapon = new ShotgunWeapon();
+		break;
+	}
+	accuracyModifier = (rand() % 5) / 100.0f;
 }
 float Entity::GetLife()
 {
