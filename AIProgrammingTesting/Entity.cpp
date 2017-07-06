@@ -30,7 +30,16 @@ Entity::Entity(float life, float positionX, float positionY) {
 float Entity::GetLife()
 {
 	return life;
-};
+}
+void Entity::MovePositionX(float distance)
+{
+	positionX += distance;
+}
+void Entity::MovePositionY(float distance)
+{
+	positionY += distance;
+}
+;
 float Entity::PositionX()
 {
 	return positionX;

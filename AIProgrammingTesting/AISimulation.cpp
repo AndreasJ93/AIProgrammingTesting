@@ -10,9 +10,9 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		d2d->SetBrushColour(i, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
 		//TO DO; place out the AIs in a non-random way. Read from file? (JSON?)
 		float dirtyFix = 0.001f;
-		float posX = abs(cosf(rand() % 100 + i*rand() % 50)) * (rand() % 2 - 1);
-		float posY = abs(cosf(rand() % 100 + i*rand() % 50)) * (rand() % 2 - 1);
-		Agents.push_back(new UtilityBasedAI(rand() % 1000 + 250, posX, posY));
+		float posX = i*rand() % 50 * rand() % 2 - 1 + (250 * rand() % 10) * rand() % 3 - 2;
+		float posY = i*rand() % 50 * rand() % 2 - 1 + (250 * rand() % 10) * rand() % 3 - 2;
+		Agents.push_back(new UtilityBasedAI(rand() % 100 + 250, posX, posY));
 	}
 }
 

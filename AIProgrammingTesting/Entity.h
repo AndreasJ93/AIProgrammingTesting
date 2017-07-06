@@ -14,6 +14,8 @@ private:
 public:
 	Entity(float life, float position, float positionY);
 	float GetLife();
+	void MovePositionX(float distance);
+	void MovePositionY(float distance);
 	float PositionX();
 	float PositionY();
 	void Heal(uint16_t damageToHeal);

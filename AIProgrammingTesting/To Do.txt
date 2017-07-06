@@ -1,15 +1,17 @@
-To do:
+Done:
 	*DONE: CLEAN UP THE CODEBASE SO IT CAN ACTUALLY BE WORKED WITH! PRIO 1, PRIO UNO!
 	*DONE: PRINT TEXT: Implement a way to prin text so that one can follow the number of killed agents in real time, without waiting	
 	*DONE: Implement "range" between agents ("x" value implemented)
+	*DONE: Implement "real" weapons (NO MORE RANDOM STATS!).
+		*SEMI DONE: Random a weapon for each entity, but create from a list of weapons (weaponhandler?)
+	*SEMI DONE: Implement "accuracy modification" for agents
+	*SEMI DONE: Implement movement (very basic as of now)
+To do:
 	-Clean Up the codebase every now and then.
 	-Refactor D2D class so that the write part is outside of the D2D class?
 	-Implement "scrolling window" so that the simulation can be less "zoomed out"
-	-Implement "real" weapons (NO MORE RANDOM STATS!).
-		-Random a weapon for each entity, but create from a list of weapons (weaponhandler?)
-	-Implement "accuracy modification" for agents
 	-Implement decision algorithms (should I attack, OR heal? Are none of them a threat to me? Should I move towards an agent?)
-	-Implement movement and "hiding" spots
+	-Implement "hiding" spots
 	-Implement removal of hiding spots
 	-Implement a real map, let the agents find each other and shoot
 	-Implement line of sight / detection

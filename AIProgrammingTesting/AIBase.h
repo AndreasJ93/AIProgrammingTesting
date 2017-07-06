@@ -8,7 +8,8 @@
 enum AllowedActions {
 	ACTION_FIRE,
 	ACTION_RELOAD,
-	ACTION_HEAL
+	ACTION_HEAL,
+	ACTION_MOVE
 };
 
 class AIBase
