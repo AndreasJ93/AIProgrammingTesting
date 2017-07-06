@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Agents\Utility Based">
       <UniqueIdentifier>{e2cf35f1-3644-4ab3-8712-69ce179486f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{d1bb8825-1bef-4e48-a8c7-96cce0da8d29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="RocketLauncherWeapon.cpp">
       <Filter>Source Files\Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISimulation.h">
@@ -115,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="RocketLauncherWeapon.h">
       <Filter>Header Files\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

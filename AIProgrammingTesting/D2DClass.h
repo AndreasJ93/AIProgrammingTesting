@@ -72,6 +72,7 @@ private:
 	std::vector<DataStruct*>	pGeometry;
 	std::vector<Text>			texts;
 	std::pair<float, float>		normalizationValues;
+	std::vector<std::pair<D2D1_POINT_2F, D2D1_POINT_2F>> mapLinePoints;
 
 public:
 	struct BrushColour
@@ -90,6 +91,7 @@ public:
 	void	AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill = true);
 	void	AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill = true);
 	UINT	AddText(std::string text, float xPosition, float yPosition);
+	void	AddMapPoint(float xStart, float yStart, float xEnd, float yEnd, float scaleX = 1.0f, float scaleY = 1.0f, float offsetX = 0.0f, float offsetY = 0.0f);
 	void	UpdateText(UINT ID, std::string text);
 	void	UpdateTextPosition(UINT ID, float xPosition, float yPosition);
 
@@ -97,6 +99,7 @@ public:
 
 	void	UpdateAll();
 	void	Draw();
+	void	DrawMap();
 	void	DrawTextOnly();
 
 private:

@@ -9,11 +9,20 @@ Done:
 To do:
 	-Clean Up the codebase every now and then.
 	-Refactor D2D class so that the write part is outside of the D2D class?
+	-Implement a real map, let the agents find each other and shoot
+		-The Map is "done", in the sense that it "creates" a maze.
+		-Implement the following:
+			-"Dots" to show Agents, lines to show where they're going ("goal")
+			-A* algorithm from any point to any other point
+				-Testing start/goal? (Top left, bottom right)
+			-"Line of sight" (can see down "corridors", but not around corners)
+			-Distance from point a to point b
+			-Functions to check if an Agent can move to a certain point (one step distance)
+			-Scalability inside of the D2D class
 	-Implement "scrolling window" so that the simulation can be less "zoomed out"
 	-Implement decision algorithms (should I attack, OR heal? Are none of them a threat to me? Should I move towards an agent?)
 	-Implement "hiding" spots
 	-Implement removal of hiding spots
-	-Implement a real map, let the agents find each other and shoot
 	-Implement line of sight / detection
 
 AIs to test and implement (in non-specific order)

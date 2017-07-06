@@ -212,6 +212,15 @@ UINT D2DClass::AddText(std::string text, float xPosition, float yPosition)
 	return texts.size() - 1;
 }
 
+void D2DClass::AddMapPoint(float xStart, float yStart, float xEnd, float yEnd, float scaleX, float scaleY, float offsetX, float offsetY)
+{
+	std::pair<D2D1_POINT_2F, D2D1_POINT_2F> linePoints;
+	linePoints.first = D2D1::Point2F(xStart*scaleX + offsetX, yStart*scaleY + offsetY);
+	linePoints.second = D2D1::Point2F(xEnd*scaleX + offsetX, yEnd*scaleY + offsetY);
+
+	mapLinePoints.push_back(linePoints);
+}
+
 void D2DClass::UpdateText(UINT ID, std::string text)
 {
 	std::wstring wTest = std::wstring(text.begin(), text.end()).c_str();
@@ -417,6 +426,32 @@ void D2DClass::Draw()
 	}
 }
 
+void D2DClass::DrawMap()
+{
+	HRESULT hr = CreateGraphicsResources();
+	if (SUCCEEDED(hr))
+	{
+		float segmentWidth = (width*1.0f) / normalizationValues.first;
+		float segmentHeight = (height*1.0f - 20.f) / normalizationValues.second;
+		float ratio = normalizationValues.first / normalizationValues.second;
+		PAINTSTRUCT ps;
+		BeginPaint(hWnd, &ps);
+
+		pRenderTarget->BeginDraw();
+
+		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+		for (auto lines : mapLinePoints)
+			pRenderTarget->DrawLine(lines.first, lines.second, pBrush);
+
+		hr = pRenderTarget->EndDraw();
+		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
+		{
+			DiscardGraphicsResources();
+		}
+
+		EndPaint(hWnd, &ps);
+	}
+}
 void D2DClass::DrawTextOnly()
 {
 	HRESULT hr = CreateGraphicsResources();
@@ -496,6 +531,8 @@ HRESULT D2DClass::CreateGraphicsResources()
 			D2D1::HwndRenderTargetProperties(hWnd, size),
 			&pRenderTarget);
 
+		const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
+		pRenderTarget->CreateSolidColorBrush(color, &pBrush);
 		if (SUCCEEDED(hr))
 		{
 			if (SUCCEEDED(hr))

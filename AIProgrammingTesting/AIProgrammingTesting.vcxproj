@@ -142,6 +142,7 @@
     <ClCompile Include="AIBase.cpp" />
     <ClCompile Include="AISimulation.cpp" />
     <ClCompile Include="AutomaticWeapon.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="PistolWeapon.cpp" />
     <ClCompile Include="RocketLauncherWeapon.cpp" />
     <ClCompile Include="ShotgunWeapon.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="AIBase.h" />
     <ClInclude Include="AISimulation.h" />
     <ClInclude Include="AutomaticWeapon.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="PistolWeapon.h" />
     <ClInclude Include="RocketLauncherWeapon.h" />
     <ClInclude Include="ShotgunWeapon.h" />
