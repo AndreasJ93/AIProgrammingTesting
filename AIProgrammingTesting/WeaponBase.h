@@ -2,6 +2,12 @@
 #include <stdint.h>
 #include <cmath>
 
+/*
+
+	The "weapon formula" below is taken from "Behavioural Mathematics for Game AI"
+
+*/
+
 class WeaponBase
 {
 public:

@@ -1,5 +1,12 @@
 #pragma once
 #include "AIBase.h"
+
+/*
+
+The "UtilityBasedAI" below is based on the AI presented in "Behavioural Mathematics for Game AI"
+
+*/
+
 class UtilityBasedAI :
 	public AIBase
 {
