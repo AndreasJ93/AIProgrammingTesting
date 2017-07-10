@@ -63,6 +63,11 @@ D2DClass::~D2DClass()
 	}
 }
 
+float D2DClass::GetWindowScale()
+{
+	return windowScale;
+}
+
 bool D2DClass::run()
 {
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -96,10 +101,21 @@ UINT D2DClass::AddDataVector()
 	return pGeometry.size() - 1;
 }
 
+void D2DClass::ClearDataVector(UINT ID)
+{
+	SafeRelease(&pGeometry[ID]->dataSink);
+	pGeometry[ID]->figureGeometry.clear();
+	pGeometry[ID]->geometryPoints.clear();
+	pGeometry[ID]->pointsAdded = true;
+	SafeRelease(&pGeometry[ID]->pathGeometry);
+}
+
 void D2DClass::SetBrushColour(UINT ID, BrushColour colour)
 {
 	if (ID < pGeometry.size())
 	{
+		if (pGeometry[ID]->brush)
+			SafeRelease(&pGeometry[ID]->brush);
 		auto colorF = D2D1::ColorF(colour.r, colour.g, colour.b, colour.a);
 		pRenderTarget->CreateSolidColorBrush(colorF, &pGeometry[ID]->brush);
 	}
@@ -221,6 +237,11 @@ void D2DClass::AddMapPoint(float xStart, float yStart, float xEnd, float yEnd, f
 	mapLinePoints.push_back(linePoints);
 }
 
+void D2DClass::ClearMap()
+{
+	mapLinePoints.clear();
+}
+
 void D2DClass::UpdateText(UINT ID, std::string text)
 {
 	std::wstring wTest = std::wstring(text.begin(), text.end()).c_str();
@@ -239,6 +260,26 @@ void D2DClass::UpdateText(UINT ID, std::string text)
 void D2DClass::UpdateTextPosition(UINT ID, float xPosition, float yPosition)
 {
 	texts[ID].Position = D2D1::Point2F(xPosition, yPosition);
+}
+
+void D2DClass::BeginDrawing()
+{
+	BeginPaint(hWnd, &ps);
+
+	pRenderTarget->BeginDraw();
+
+	pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+}
+
+void D2DClass::EndDrawing()
+{
+	HRESULT hr = pRenderTarget->EndDraw();
+	if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
+	{
+		DiscardGraphicsResources();
+	}
+
+	EndPaint(hWnd, &ps);
 }
 
 D2DClass::BrushColour D2DClass::RandomBrushColour(UINT8 hueLowerLimit, UINT hueUpperLimit, UINT saturationLowerLimit, UINT saturationUpperLimit, UINT valueLowerLimit, UINT valueUpperLimit)
@@ -289,6 +330,54 @@ D2DClass::BrushColour D2DClass::RandomBrushColour(UINT8 hueLowerLimit, UINT hueU
 	return returnColour;
 }
 
+void D2DClass::Update(UINT symbolsID)
+{
+	HRESULT hr = CreateGraphicsResources();
+	if (SUCCEEDED(hr))
+	{
+		float segmentWidth = (width*1.0f) / normalizationValues.first;
+		float segmentHeight = (height*1.0f - 20.0f) / normalizationValues.second;
+		if (symbolsID != -1)
+		{
+			auto &toBeUpdated = pGeometry[symbolsID];
+			if (toBeUpdated->pointsAdded)
+			{
+				SafeRelease(&toBeUpdated->dataSink);
+				SafeRelease(&toBeUpdated->pathGeometry);
+				auto dataSink = toBeUpdated->dataSink;
+
+				HRESULT hr = pFactory->CreatePathGeometry(&(toBeUpdated->pathGeometry));
+				if (SUCCEEDED(hr))
+				{
+					hr = toBeUpdated->pathGeometry->Open(&dataSink);
+					if (SUCCEEDED(hr))
+					{
+						auto iterator = toBeUpdated->geometryPoints.cbegin();
+						auto iteratorEnd = toBeUpdated->geometryPoints.end();
+						dataSink->BeginFigure(
+							D2D1::Point2F(iterator->first * segmentWidth,
+								height - abs(iterator->second * segmentHeight)),
+							D2D1_FIGURE_BEGIN_FILLED);
+						iterator++;
+						std::vector<D2D1_POINT_2F> points;
+						for (iterator; iterator != iteratorEnd; ++iterator)
+						{
+							dataSink->AddLine(D2D1::Point2F(iterator->first * segmentWidth,
+								height - abs(iterator->second * segmentHeight)));
+						}
+						dataSink->EndFigure(D2D1_FIGURE_END_OPEN);
+						hr = dataSink->Close();
+						if (!SUCCEEDED(hr))
+						{
+							int a = 10;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 void D2DClass::UpdateAll()
 {
 	HRESULT hr = CreateGraphicsResources();
@@ -332,7 +421,7 @@ void D2DClass::UpdateAll()
 	}
 }
 
-void D2DClass::Draw()
+void D2DClass::Draw(UINT symbolsID)
 {
 	HRESULT hr = CreateGraphicsResources();
 	if (SUCCEEDED(hr))
@@ -340,14 +429,10 @@ void D2DClass::Draw()
 		float segmentWidth = (width*1.0f) / normalizationValues.first;
 		float segmentHeight = (height*1.0f - 20.f) / normalizationValues.second;
 		float ratio = normalizationValues.first / normalizationValues.second;
-		PAINTSTRUCT ps;
-		BeginPaint(hWnd, &ps);
 
-		pRenderTarget->BeginDraw();
-
-		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-		for (auto &toBeRendered : pGeometry)
+		if (symbolsID != -1)
 		{
+			auto &toBeRendered = pGeometry[symbolsID];
 			if (toBeRendered->pathGeometry)
 				pRenderTarget->DrawGeometry(toBeRendered->pathGeometry, toBeRendered->brush, 2.0f);
 			for (auto &geometry : toBeRendered->figureGeometry)
@@ -412,21 +497,10 @@ void D2DClass::Draw()
 				}
 			}
 		}
-
-		for (auto text : texts)
-			pRenderTarget->DrawTextLayout(text.Position, text.TextLayout, text.Brush);
-
-		hr = pRenderTarget->EndDraw();
-		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
-		{
-			DiscardGraphicsResources();
-		}
-
-		EndPaint(hWnd, &ps);
 	}
 }
 
-void D2DClass::DrawMap()
+void D2DClass::DrawMap(UINT symbolsID)
 {
 	HRESULT hr = CreateGraphicsResources();
 	if (SUCCEEDED(hr))
@@ -434,22 +508,52 @@ void D2DClass::DrawMap()
 		float segmentWidth = (width*1.0f) / normalizationValues.first;
 		float segmentHeight = (height*1.0f - 20.f) / normalizationValues.second;
 		float ratio = normalizationValues.first / normalizationValues.second;
-		PAINTSTRUCT ps;
-		BeginPaint(hWnd, &ps);
 
-		pRenderTarget->BeginDraw();
-
-		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 		for (auto lines : mapLinePoints)
 			pRenderTarget->DrawLine(lines.first, lines.second, pBrush);
 
-		hr = pRenderTarget->EndDraw();
-		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
+		if (symbolsID != -1)
 		{
-			DiscardGraphicsResources();
-		}
+			for (auto &geometry : pGeometry[symbolsID]->figureGeometry)
+			{
+				/*ÄNDRA TILL DE NYA VÄRDENA*/
+				switch (geometry.type)
+				{
+				case Geometry::ELLIPSE:
+					D2D1_ELLIPSE ellipse;
+					ellipse.point = geometry.origin;
+					ellipse.radiusX = geometry.radiusX;
+					ellipse.radiusY = geometry.radiusY;
+					if (geometry.fill)
+						pRenderTarget->FillEllipse(ellipse, pGeometry[symbolsID]->brush);
+					else
+						pRenderTarget->DrawEllipse(ellipse, pGeometry[symbolsID]->brush);
+					break;
+				case Geometry::CIRCLE:
+					D2D1_ELLIPSE circle;
+					circle.point = geometry.origin;
+					circle.radiusX = geometry.radiusX;
+					circle.radiusY = geometry.radiusY;
+					if (geometry.fill)
+						pRenderTarget->FillEllipse(circle, pGeometry[symbolsID]->brush);
+					else
+						pRenderTarget->DrawEllipse(circle, pGeometry[symbolsID]->brush);
+					break;
+				case Geometry::RECTANGLE:
+					D2D1_RECT_F rectangle;
 
-		EndPaint(hWnd, &ps);
+					rectangle.left = geometry.origin.x - geometry.width;
+					rectangle.top = geometry.origin.y - geometry.height;
+					rectangle.right = geometry.origin.x + geometry.width;
+					rectangle.bottom = geometry.origin.y + geometry.height;
+					if (geometry.fill)
+						pRenderTarget->FillRectangle(rectangle, pGeometry[symbolsID]->brush);
+					else
+						pRenderTarget->DrawRectangle(rectangle, pGeometry[symbolsID]->brush);
+					break;
+				}
+			}
+		}
 	}
 }
 void D2DClass::DrawTextOnly()
@@ -460,22 +564,9 @@ void D2DClass::DrawTextOnly()
 		float segmentWidth = (width*1.0f) / normalizationValues.first;
 		float segmentHeight = (height*1.0f - 20.f) / normalizationValues.second;
 		float ratio = normalizationValues.first / normalizationValues.second;
-		PAINTSTRUCT ps;
-		BeginPaint(hWnd, &ps);
 
-		pRenderTarget->BeginDraw();
-
-		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 		for (auto text : texts)
 			pRenderTarget->DrawTextLayout(text.Position, text.TextLayout, text.Brush);
-
-		hr = pRenderTarget->EndDraw();
-		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
-		{
-			DiscardGraphicsResources();
-		}
-
-		EndPaint(hWnd, &ps);
 	}
 }
 LRESULT D2DClass::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

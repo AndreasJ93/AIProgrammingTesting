@@ -13,11 +13,11 @@ To do:
 		-The Map is "done", in the sense that it "creates" a maze.
 		-Implement the following:
 			-"Dots" to show Agents, lines to show where they're going ("goal")
-			-A* algorithm from any point to any other point
-				-Testing start/goal? (Top left, bottom right)
-			-"Line of sight" (can see down "corridors", but not around corners)
-			-Distance from point a to point b
-			-Functions to check if an Agent can move to a certain point (one step distance)
+			-A* algorithm from any point to any other point DONE
+				-Testing start/goal? (Top left, bottom right) DONE
+			-"Line of sight" (can see down "corridors", but not around corners) DONE
+			-Distance from point a to point b SEMI DONE (Call A*, then see the size of the "path")
+			-Functions to check if an Agent can move to a certain point (one step distance) DONE
 			-Scalability inside of the D2D class
 	-Implement "scrolling window" so that the simulation can be less "zoomed out"
 	-Implement decision algorithms (should I attack, OR heal? Are none of them a threat to me? Should I move towards an agent?)

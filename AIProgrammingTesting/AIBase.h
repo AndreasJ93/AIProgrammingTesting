@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Map.h"
 
 //SHOULD THE AI HOLD IN THE ENTITY, OR THE OTHER WAY AROUND?
 
@@ -17,7 +18,7 @@ class AIBase
 public:
 	AIBase(uint16_t life, float positionX, float positionY);
 	virtual ~AIBase();
-	virtual AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID) = 0;
+	virtual AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID, Map2D *map) = 0;
 	AllowedActions GetLastPerformedAction();
 	bool Fire();
 	void Reload();
@@ -29,6 +30,8 @@ public:
 	void TakeDamage(uint16_t damage);
 	float GetPositionX();
 	float GetPositionY();
+	void  SetPositionX(float position);
+	void  SetPositionY(float position);
 protected:
 	Entity* myEntity;
 	AllowedActions lastAction;

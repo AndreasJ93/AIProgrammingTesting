@@ -57,6 +57,7 @@ private:
 	ID2D1Factory            *pFactory;
 	ID2D1HwndRenderTarget   *pRenderTarget;
 	ID2D1SolidColorBrush	*pBrush;
+	PAINTSTRUCT ps;
 
 	/*Direct write specific*/
 	IDWriteFactory*			pWriteFactory;
@@ -68,6 +69,7 @@ private:
 	int width;
 	HWND hWnd;
 	MSG msg;
+	const float windowScale = float(WINDOW_WIDTH) / float(WINDOW_HEIGHT);
 
 	std::vector<DataStruct*>	pGeometry;
 	std::vector<Text>			texts;
@@ -81,8 +83,10 @@ public:
 	};
 	D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
 	~D2DClass();
+	float	GetWindowScale();
 	bool	run();
 	UINT	AddDataVector();
+	void	ClearDataVector(UINT ID);
 	void	SetBrushColour(UINT ID, BrushColour colour);
 	void	AddPoint(UINT ID, float x, float y);
 	void	AddRect(UINT ID, float originX, float originY, float height, float width, bool fill = true);
@@ -92,14 +96,18 @@ public:
 	void	AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill = true);
 	UINT	AddText(std::string text, float xPosition, float yPosition);
 	void	AddMapPoint(float xStart, float yStart, float xEnd, float yEnd, float scaleX = 1.0f, float scaleY = 1.0f, float offsetX = 0.0f, float offsetY = 0.0f);
+	void	ClearMap();
 	void	UpdateText(UINT ID, std::string text);
 	void	UpdateTextPosition(UINT ID, float xPosition, float yPosition);
+	void	BeginDrawing();
+	void	EndDrawing();
 
 	BrushColour	RandomBrushColour(UINT8 hueLowerLimit = 0, UINT hueUpperLimit = 100, UINT saturationLowerLimit = 0, UINT saturationUpperLimit = 100, UINT valueLowerLimit = 0, UINT valueUpperLimit = 100);
 
-	void	UpdateAll();
-	void	Draw();
-	void	DrawMap();
+	void	Update(UINT symbolsID = -1);
+	void	UpdateAll(); //LEGACY, DO NOT USE!
+	void	Draw(UINT symbolsID = -1);
+	void	DrawMap(UINT symbolsID = -1);
 	void	DrawTextOnly();
 
 private:

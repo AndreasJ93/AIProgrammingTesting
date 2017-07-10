@@ -9,7 +9,7 @@ UtilityBasedAI::~UtilityBasedAI()
 {
 }
 
-AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int myID)
+AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigned int myID, Map2D* map)
 {
 	//COMMENT THIS AI IN DETAIL!
 	if (myEntity->GetLife() < 15)
@@ -34,11 +34,15 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 			bool operator<(threatFloat &rhs) { return this->threatRatios < rhs.threatRatios ? true : false; }
 		};
 		std::vector<threatFloat> threatRatios;
+		int positionX = myEntity->PositionX();
+		int positionY = myEntity->PositionY();
 		for (auto &agents : allAIs)
 		{
-			if (myID != ID && agents->GetLife())
+			int enemyPosX = agents->GetPositionX();
+			int enemyPosY = agents->GetPositionY();
+			if (myID != ID && agents->GetLife() && map->LineOfSight(positionX, positionY, enemyPosX, enemyPosY))
 			{
-				float distance = sqrt(pow(agents->GetPositionX() - myEntity->PositionX(), 2) + pow(agents->GetPositionY() - myEntity->PositionY(), 2));
+				float distance = sqrt(pow(enemyPosX - positionX, 2) + pow(enemyPosY - positionY, 2));
 				float accuracy = this->GetAccuracy(distance);
 				if (accuracy > maximumAccuracy)
 					maximumAccuracy = accuracy;
@@ -61,63 +65,6 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 		}
 		else
 		{
-			ID = 0;
-			unsigned int closestAgent = -1;
-			float closestDistance = 1000.0f;
-			enum Direction
-			{
-				LEFT,
-				UP,
-				RIGHT,
-				DOWN
-			};
-
-			Direction directionToClosest;
-
-			for (auto &agents : allAIs)
-			{
-				if (myID != ID && agents->GetLife())
-				{
-					float distance = sqrt(pow(agents->GetPositionX() - myEntity->PositionX(), 2) + pow(agents->GetPositionY() - myEntity->PositionY(), 2));
-					if (distance < closestDistance)
-					{
-						closestDistance = distance;
-						closestAgent = ID;
-						float xDistance = agents->GetPositionX() - myEntity->PositionX();
-						float yDistance = agents->GetPositionY() - myEntity->PositionY();
-						if (abs(xDistance) < abs(yDistance))
-						{
-							if (xDistance < 0.0f)
-								directionToClosest = LEFT;
-							else
-								directionToClosest = RIGHT;
-						}
-						else
-						{
-							if (yDistance < 0.0f)
-								directionToClosest = DOWN;
-							else
-								directionToClosest = UP;
-						}
-					}
-				}
-				ID++;
-			}
-			switch (directionToClosest)
-			{
-			case LEFT:
-				myEntity->MovePositionX((allAIs[closestAgent]->GetPositionX() - myEntity->PositionX()) / 2);
-				break;
-			case RIGHT:
-				myEntity->MovePositionX((allAIs[closestAgent]->GetPositionX() - myEntity->PositionX()) / 2);
-				break;
-			case UP:
-				myEntity->MovePositionY((allAIs[closestAgent]->GetPositionY() - myEntity->PositionY()) / 2);
-				break;
-			case DOWN:
-				myEntity->MovePositionY((allAIs[closestAgent]->GetPositionY() - myEntity->PositionY()) / 2);
-				break;
-			}
 			lastAction = ACTION_MOVE;
 		}
 	}

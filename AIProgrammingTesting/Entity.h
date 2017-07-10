@@ -7,17 +7,19 @@ class Entity
 private:
 	float life;
 	float accuracyModifier;
-	float positionX;
-	float positionY;
+	int positionX;
+	int positionY;
 	std::vector<WeaponBase*> weapons;
 	WeaponBase* equipedWeapon;
 public:
 	Entity(float life, float position, float positionY);
 	float GetLife();
-	void MovePositionX(float distance);
-	void MovePositionY(float distance);
-	float PositionX();
-	float PositionY();
+	void MovePositionX(int distance);
+	void MovePositionY(int distance);
+	int PositionX();
+	int PositionY();
+	void SetPositionX(int position);
+	void SetPositionY(int position);
 	void Heal(uint16_t damageToHeal);
 	bool Fire();
 	void Reload();

@@ -31,23 +31,32 @@ float Entity::GetLife()
 {
 	return life;
 }
-void Entity::MovePositionX(float distance)
+void Entity::MovePositionX(int distance)
 {
 	positionX += distance;
 }
-void Entity::MovePositionY(float distance)
+void Entity::MovePositionY(int distance)
 {
 	positionY += distance;
 }
 ;
-float Entity::PositionX()
+int Entity::PositionX()
 {
 	return positionX;
 };
-float Entity::PositionY()
+int Entity::PositionY()
 {
 	return positionY;
-};
+}
+void Entity::SetPositionX(int position)
+{
+	positionX = position;
+}
+void Entity::SetPositionY(int position)
+{
+	positionY = position;
+}
+
 void Entity::Heal(uint16_t damageToHeal)
 {
 	life += damageToHeal;

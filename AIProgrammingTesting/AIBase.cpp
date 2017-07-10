@@ -56,3 +56,11 @@ float AIBase::GetPositionY()
 {
 	return myEntity->PositionY();
 };
+void AIBase::SetPositionX(float position)
+{
+	myEntity->SetPositionX(position);
+};
+void AIBase::SetPositionY(float position)
+{
+	myEntity->SetPositionY(position);
+};
