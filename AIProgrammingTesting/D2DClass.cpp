@@ -235,8 +235,8 @@ UINT D2DClass::AddText(std::string text, float xPosition, float yPosition)
 		&toAdd.TextLayout);
 
 	toAdd.Position = D2D1::Point2F(xPosition, yPosition);
-	const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
-	pRenderTarget->CreateSolidColorBrush(color, &toAdd.Brush);
+	const D2D1_COLOR_F colourF = D2D1::ColorF(1.0f, 1.0f, 0);
+	pRenderTarget->CreateSolidColorBrush(colourF, &toAdd.Brush);
 
 	texts.push_back(toAdd);
 	return texts.size() - 1;
@@ -654,8 +654,8 @@ HRESULT D2DClass::CreateGraphicsResources()
 			D2D1::HwndRenderTargetProperties(hWnd, size),
 			&pRenderTarget);
 
-		const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
-		pRenderTarget->CreateSolidColorBrush(color, &pBrush);
+		const D2D1_COLOR_F colourF = D2D1::ColorF(1.0f, 1.0f, 0);
+		pRenderTarget->CreateSolidColorBrush(colourF, &pBrush);
 		if (SUCCEEDED(hr))
 		{
 			if (SUCCEEDED(hr))
