@@ -90,11 +90,11 @@ public:
 	void	ClearDataVector(UINT ID);
 	void	SetBrushColour(UINT ID, BrushColour colour);
 	void	AddPoint(UINT ID, float x, float y);
-	void	AddRect(UINT ID, float originX, float originY, float height, float width, bool fill = true);
-	void	AddRoundedRect(UINT ID, float originX, float originY, float height, float width, float radiusX, float radiusY, bool fill = true);
-	void	AddCircle(UINT ID, float originX, float originY, float radius, bool fill = true);
+	void	AddRect(UINT ID, float originX, float originY, float height, float width, bool fill = true, BrushColour *colour = nullptr);
+	void	AddRoundedRect(UINT ID, float originX, float originY, float height, float width, float radiusX, float radiusY, bool fill = true, BrushColour *colour = nullptr);
+	void	AddCircle(UINT ID, float originX, float originY, float radius, bool fill = true, BrushColour *colour = nullptr);
 	void	AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill = true, BrushColour *colour = nullptr);
-	void	AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill = true);
+	void	AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill = true, BrushColour *colour = nullptr);
 	UINT	AddText(std::string text, float xPosition, float yPosition);
 	void	AddMapPoint(float xStart, float yStart, float xEnd, float yEnd, float scaleX = 1.0f, float scaleY = 1.0f, float offsetX = 0.0f, float offsetY = 0.0f);
 	void	ClearMap();

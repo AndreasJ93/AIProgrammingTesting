@@ -141,7 +141,7 @@ void D2DClass::AddPoint(UINT ID, float x, float y)
 	}
 }
 
-void D2DClass::AddRect(UINT ID, float originX, float originY, float height, float width, bool fill)
+void D2DClass::AddRect(UINT ID, float originX, float originY, float height, float width, bool fill, BrushColour *colour)
 {
 	if (ID < pGeometry.size())
 	{
@@ -151,11 +151,13 @@ void D2DClass::AddRect(UINT ID, float originX, float originY, float height, floa
 		temp.height = height;
 		temp.width = width;
 		temp.fill = fill;
+		auto colorF = D2D1::ColorF(colour->r, colour->g, colour->b, colour->a);
+		pRenderTarget->CreateSolidColorBrush(colorF, &temp.colour);
 		pGeometry[ID]->figureGeometry.push_back(temp);
 	}
 }
 
-void D2DClass::AddRoundedRect(UINT ID, float originX, float originY, float height, float width, float radiusX, float radiusY, bool fill)
+void D2DClass::AddRoundedRect(UINT ID, float originX, float originY, float height, float width, float radiusX, float radiusY, bool fill, BrushColour *colour)
 {
 	if (ID < pGeometry.size())
 	{
@@ -167,11 +169,13 @@ void D2DClass::AddRoundedRect(UINT ID, float originX, float originY, float heigh
 		temp.radiusX = radiusX;
 		temp.radiusY = radiusY;
 		temp.fill = fill;
+		auto colorF = D2D1::ColorF(colour->r, colour->g, colour->b, colour->a);
+		pRenderTarget->CreateSolidColorBrush(colorF, &temp.colour);
 		pGeometry[ID]->figureGeometry.push_back(temp);
 	}
 }
 
-void D2DClass::AddCircle(UINT ID, float originX, float originY, float radius, bool fill)
+void D2DClass::AddCircle(UINT ID, float originX, float originY, float radius, bool fill, BrushColour *colour)
 {
 	/*ÄNDRA TILL DE NYA VÄRDENA!*/
 	if (ID < pGeometry.size())
@@ -182,6 +186,8 @@ void D2DClass::AddCircle(UINT ID, float originX, float originY, float radius, bo
 		temp.radiusX = radius;
 		temp.radiusY = radius;
 		temp.fill = fill;
+		auto colorF = D2D1::ColorF(colour->r, colour->g, colour->b, colour->a);
+		pRenderTarget->CreateSolidColorBrush(colorF, &temp.colour);
 		pGeometry[ID]->figureGeometry.push_back(temp);
 	}
 }
@@ -202,7 +208,7 @@ void D2DClass::AddEllipse(UINT ID, float originX, float originY, float radiusX, 
 	}
 }
 
-void D2DClass::AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill)
+void D2DClass::AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill, BrushColour *colour)
 {
 	/*if (ID < pGeometry.size())
 	{
