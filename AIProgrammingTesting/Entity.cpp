@@ -27,6 +27,12 @@ Entity::Entity(float life, float positionX, float positionY) {
 	}
 	accuracyModifier = (rand() % 5) / 100.0f;
 }
+
+Entity::~Entity()
+{
+	delete equipedWeapon;
+}
+
 float Entity::GetLife()
 {
 	return life;

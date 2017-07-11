@@ -10,11 +10,14 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		std::pair<int, int> goal = map->GetRandomPointInMaze();
 		AIInformation agent;
 		agent.curveID = d2d->AddDataVector();
-
-		d2d->SetBrushColour(agent.curveID, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));
+		D2DClass::BrushColour *brush;
+		auto temp = d2d->RandomBrushColour(0, 100, 0, 100, 25, 100);
+		brush = new D2DClass::BrushColour(temp);
+		d2d->SetBrushColour(agent.curveID, temp);
 		agent.agent = new UtilityBasedAI(rand() % 100 + 250, startPoint.first, startPoint.second);
 		agent.path = map->GetPathBetweenPoints(startPoint.first, startPoint.second, goal.first, goal.second);
 		agent.symbolID = map->AddSymbol(Map2D::Map2DSymbolData::CIRCLE, startPoint.first, startPoint.second, 0.25f*scaleX, 0.25f*scaleY);
+		agent.colour = brush;
 		Agents.push_back(agent);
 	}
 }
@@ -87,7 +90,7 @@ void AISimulation::UpdateAIs()
 				}
 				break;
 			}
-			d2d->AddEllipse(symbolVectorID, circle.positionX*scaleX + offsetX, circle.positionY*scaleY + offsetY, circle.sizeX, circle.sizeY);
+			d2d->AddEllipse(symbolVectorID, circle.positionX*scaleX + offsetX, circle.positionY*scaleY + offsetY, circle.sizeX, circle.sizeY, true, AI.colour);
 		}
 
 		ID++;
@@ -174,6 +177,13 @@ AISimulation::AISimulation(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 
 AISimulation::~AISimulation()
 {
+	for (auto it : Agents)
+	{
+		delete it.colour;
+		delete it.agent;
+	}
+	delete map;
+	delete d2d;
 }
 
 void AISimulation::RunSimulation(int nrOfAgents)

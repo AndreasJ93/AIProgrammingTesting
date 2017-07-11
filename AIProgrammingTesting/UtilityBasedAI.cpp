@@ -47,7 +47,7 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 				if (accuracy > maximumAccuracy)
 					maximumAccuracy = accuracy;
 
-				if (accuracy > 0.5f) //Only attack "far away" targets
+				if (accuracy > 0.25f) //Only attack "far away" targets
 				{
 					float timeToKill = agents->GetLife() / (this->GetDamage(distance)*this->myEntity->Accuracy(distance));
 					float timeToKillMe = this->GetLife() / (agents->GetDamage(distance)*agents->GetAccuracy(distance));
@@ -57,7 +57,7 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 			}
 			ID++;
 		}
-		if (maximumAccuracy > 0.5f) //We have a "close" target
+		if (maximumAccuracy > 0.25f) //We have a "close" target
 		{
 			std::sort(threatRatios.begin(), threatRatios.end());
 			targetID = threatRatios[0].id;

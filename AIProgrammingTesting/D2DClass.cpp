@@ -54,6 +54,12 @@ D2DClass::~D2DClass()
 	{
 		SafeRelease(&(i->pathGeometry));
 		SafeRelease(&(i->brush));
+		SafeRelease(&(i->dataSink));
+		for (auto &j : i->figureGeometry)
+		{
+			if (j.colour)
+				SafeRelease(&j.colour);
+		}
 		delete i;
 	}
 	for (auto text : texts)
@@ -180,7 +186,7 @@ void D2DClass::AddCircle(UINT ID, float originX, float originY, float radius, bo
 	}
 }
 
-void D2DClass::AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill)
+void D2DClass::AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill, BrushColour *colour)
 {
 	if (ID < pGeometry.size())
 	{
@@ -190,6 +196,8 @@ void D2DClass::AddEllipse(UINT ID, float originX, float originY, float radiusX, 
 		temp.radiusX = radiusX;
 		temp.radiusY = radiusY;
 		temp.fill = fill;
+		auto colorF = D2D1::ColorF(colour->r, colour->g, colour->b, colour->a);
+		pRenderTarget->CreateSolidColorBrush(colorF, &temp.colour);
 		pGeometry[ID]->figureGeometry.push_back(temp);
 	}
 }
@@ -449,10 +457,19 @@ void D2DClass::Draw(UINT symbolsID)
 					ellipse.point.y = height - abs(ellipse.point.y*segmentHeight);
 					ellipse.radiusX *= segmentWidth;
 					ellipse.radiusY *= segmentHeight;
-					if (geometry.fill)
-						pRenderTarget->FillEllipse(ellipse, toBeRendered->brush);
+					if (!geometry.colour)
+					{
+						if (geometry.fill)
+							pRenderTarget->FillEllipse(ellipse, toBeRendered->brush);
+						else
+							pRenderTarget->DrawEllipse(ellipse, toBeRendered->brush);
+					}
 					else
-						pRenderTarget->DrawEllipse(ellipse, toBeRendered->brush);
+						if (geometry.fill)
+							pRenderTarget->FillEllipse(ellipse, geometry.colour);
+						else
+							pRenderTarget->DrawEllipse(ellipse, geometry.colour);
+
 					break;
 				case Geometry::CIRCLE:
 					D2D1_ELLIPSE circle;
@@ -524,10 +541,19 @@ void D2DClass::DrawMap(UINT symbolsID)
 					ellipse.point = geometry.origin;
 					ellipse.radiusX = geometry.radiusX;
 					ellipse.radiusY = geometry.radiusY;
-					if (geometry.fill)
-						pRenderTarget->FillEllipse(ellipse, pGeometry[symbolsID]->brush);
+					if (!geometry.colour)
+					{
+						if (geometry.fill)
+							pRenderTarget->FillEllipse(ellipse, pGeometry[symbolsID]->brush);
+						else
+							pRenderTarget->DrawEllipse(ellipse, pGeometry[symbolsID]->brush);
+					}
 					else
-						pRenderTarget->DrawEllipse(ellipse, pGeometry[symbolsID]->brush);
+						if (geometry.fill)
+							pRenderTarget->FillEllipse(ellipse, geometry.colour);
+						else
+							pRenderTarget->DrawEllipse(ellipse, geometry.colour);
+
 					break;
 				case Geometry::CIRCLE:
 					D2D1_ELLIPSE circle;

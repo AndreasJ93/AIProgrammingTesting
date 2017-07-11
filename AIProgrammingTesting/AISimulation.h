@@ -23,6 +23,7 @@ private:
 		UINT symbolID;
 		UINT curveID;
 		std::deque<Map2D::Direction> path;
+		D2DClass::BrushColour *colour;
 	};
 	D2DClass *d2d;
 	Map2D	*map;

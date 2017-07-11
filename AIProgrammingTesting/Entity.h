@@ -13,6 +13,7 @@ private:
 	WeaponBase* equipedWeapon;
 public:
 	Entity(float life, float position, float positionY);
+	~Entity();
 	float GetLife();
 	void MovePositionX(int distance);
 	void MovePositionY(int distance);

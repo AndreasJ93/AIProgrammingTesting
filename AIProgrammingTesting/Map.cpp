@@ -653,7 +653,7 @@ bool Map2D::LineOfSight(int originX, int originY, int pointX, int pointY)
 		/*We wish to look to our right*/
 		for (int x = originX; x < pointX; x++)
 		{
-			if (mapGrid[x][originY].leftWall)
+			if (mapGrid[x][originY].rightWall)
 			{
 				return false;
 			}
@@ -688,7 +688,7 @@ bool Map2D::LineOfSight(int originX, int originY, int pointX, int pointY)
 		{
 			for (int y = pointY; y < originY; y++)
 			{
-				if (mapGrid[pointX][y].topWall)
+				if (mapGrid[pointX][y].bottomWall)
 				{
 					return false;
 				}

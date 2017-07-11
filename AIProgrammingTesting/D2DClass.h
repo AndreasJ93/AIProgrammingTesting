@@ -17,6 +17,10 @@
 class D2DClass
 {
 public:
+	struct BrushColour
+	{
+		float r; float g; float b; float a;
+	};
 
 private:
 	/*Testing*/
@@ -35,6 +39,7 @@ private:
 		float radiusX;
 		float radiusY;
 		bool fill;
+		ID2D1SolidColorBrush *colour = nullptr;
 	};
 	struct Text
 	{
@@ -77,10 +82,6 @@ private:
 	std::vector<std::pair<D2D1_POINT_2F, D2D1_POINT_2F>> mapLinePoints;
 
 public:
-	struct BrushColour
-	{
-		float r; float g; float b; float a;
-	};
 	D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
 	~D2DClass();
 	float	GetWindowScale();
@@ -92,7 +93,7 @@ public:
 	void	AddRect(UINT ID, float originX, float originY, float height, float width, bool fill = true);
 	void	AddRoundedRect(UINT ID, float originX, float originY, float height, float width, float radiusX, float radiusY, bool fill = true);
 	void	AddCircle(UINT ID, float originX, float originY, float radius, bool fill = true);
-	void	AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill = true);
+	void	AddEllipse(UINT ID, float originX, float originY, float radiusX, float radiusY, bool fill = true, BrushColour *colour = nullptr);
 	void	AddTriangle(UINT ID, float topX, float topY, float leftX, float leftY, float rightX, float rightY, bool fill = true);
 	UINT	AddText(std::string text, float xPosition, float yPosition);
 	void	AddMapPoint(float xStart, float yStart, float xEnd, float yEnd, float scaleX = 1.0f, float scaleY = 1.0f, float offsetX = 0.0f, float offsetY = 0.0f);
