@@ -2,7 +2,7 @@
 
 #include <d2d1.h>
 
-Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int height, int width)
+Window::Window(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow, int height, int width)
 {
 	// this struct holds information for the window class
 	WNDCLASSEX wc;
@@ -14,7 +14,7 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = GetModuleHandle(nullptr);
+	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW);
 	wc.lpszClassName = L"WindowClass1";
@@ -29,11 +29,11 @@ Window::Window(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
 		WS_OVERLAPPEDWINDOW, // window style
 		GetSystemMetrics(SM_CXFULLSCREEN) / 2 - WINDOW_WIDTH / 2, // x-position of the window
 		GetSystemMetrics(SM_CYFULLSCREEN) / 2 - WINDOW_HEIGHT / 2, // y-position of the window
-		WINDOW_WIDTH, // width of the window
-		WINDOW_HEIGHT, // height of the window
+		width, // width of the window
+		height, // height of the window
 		nullptr, // we have no parent window, NULL
 		nullptr, // we aren't using menus, NULL
-		GetModuleHandle(nullptr), // application handle
+		hInstance, // application handle
 		this); // used with multiple windows, NULL
 
 // display the window on the screen
