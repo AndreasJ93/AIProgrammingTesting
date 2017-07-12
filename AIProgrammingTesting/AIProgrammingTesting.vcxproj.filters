@@ -93,6 +93,9 @@
     <ClCompile Include="Map.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="AIFSM.cpp">
+      <Filter>Source Files\Agents\FSM Based</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISimulation.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="AIFSM.h">
+      <Filter>Header Files\Agents\FSM Based</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

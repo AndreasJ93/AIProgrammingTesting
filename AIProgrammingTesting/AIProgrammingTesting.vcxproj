@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIBase.cpp" />
+    <ClCompile Include="AIFSM.cpp" />
     <ClCompile Include="AISimulation.cpp" />
     <ClCompile Include="AutomaticWeapon.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBase.h" />
+    <ClInclude Include="AIFSM.h" />
     <ClInclude Include="AISimulation.h" />
     <ClInclude Include="AutomaticWeapon.h" />
     <ClInclude Include="Map.h" />
