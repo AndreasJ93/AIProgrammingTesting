@@ -2,6 +2,7 @@
 
 #include "WeaponBase.h"
 #include <vector>
+
 class Entity
 {
 private:
@@ -14,20 +15,20 @@ private:
 public:
 	Entity(float life, float position, float positionY);
 	~Entity();
-	float GetLife();
+	float GetLife() const;
 	void MovePositionX(int distance);
 	void MovePositionY(int distance);
-	int PositionX();
-	int PositionY();
+	int PositionX() const;
+	int PositionY() const;
 	void SetPositionX(int position);
 	void SetPositionY(int position);
 	void Heal(uint16_t damageToHeal);
-	bool Fire();
-	void Reload();
-	bool Reloading();
-	float Accuracy(float distanceToTarget);
-	float Damage(float distanceToTarget);
-	WeaponBase* EquipedWeapon();
-	std::vector<WeaponBase*> &GetAllWeapons();
+	bool Fire() const;
+	void Reload() const;
+	bool Reloading() const;
+	float Accuracy(float distanceToTarget) const;
+	float Damage(float distanceToTarget) const;
+	WeaponBase* EquipedWeapon() const;
+	std::vector<WeaponBase*>& GetAllWeapons();
 	void TakeDamage(float damage);
 };

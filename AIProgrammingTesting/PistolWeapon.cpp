@@ -11,8 +11,8 @@ PistolWeapon::PistolWeapon()
 	this->damageDecayExponent = 2.2f;
 	this->damageDecayShift = 0;
 
-	this->accuracy = 0.70;
-	this->accuracyDecayExponent = 1.5;
+	this->accuracy = 0.70f;
+	this->accuracyDecayExponent = 1.5f;
 	this->accuracyDevisor = 3000;
 	this->accuracyDecayShift = 0;
 }

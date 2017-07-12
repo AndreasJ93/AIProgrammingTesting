@@ -2,12 +2,8 @@
 #include <windowsx.h>
 #include "D2DClass.h"
 #include "AISimulation.h"
-#include "Map.h"
 #define _USE_MATH_DEFINES
-#include <cmath>
-#include <random>
 #include <time.h>
-#include <string>
 // the WindowProc function prototype
 
 int WINAPI WinMain(HINSTANCE hInstance,
@@ -16,8 +12,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	auto seed = time(0);
-	srand(seed);
+	auto seed = time(nullptr);
+	srand(unsigned int(seed));
 
 	AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow, 16, 8);
 	simulation.RunSimulation(20);

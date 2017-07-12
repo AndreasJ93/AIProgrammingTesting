@@ -6,61 +6,74 @@ AIBase::AIBase(uint16_t life, float positionX, float positionY)
 	targetID = -1;
 	lastAction = ACTION_FIRE;
 };
+
 AIBase::~AIBase()
 {
 	if (myEntity)
 		delete myEntity;
 };
 
-AllowedActions AIBase::GetLastPerformedAction()
+AllowedActions AIBase::GetLastPerformedAction() const
 {
 	return lastAction;
 };
-bool AIBase::Fire()
+
+bool AIBase::Fire() const
 {
 	return myEntity->Fire();
 };
-void AIBase::Reload()
+
+void AIBase::Reload() const
 {
 	return myEntity->Reload();
 };
-void AIBase::Heal(uint16_t damageToHeal)
+
+void AIBase::Heal(uint16_t damageToHeal) const
 {
 	myEntity->Heal(damageToHeal);
 };
-float AIBase::GetLife()
+
+float AIBase::GetLife() const
 {
 	return myEntity->GetLife();
 };
-float AIBase::GetDamage(float distanceToTarget)
+
+float AIBase::GetDamage(float distanceToTarget) const
 {
 	return myEntity->Damage(distanceToTarget);
 };
-uint16_t AIBase::GetTarget()
+
+uint16_t AIBase::GetTarget() const
 {
 	return targetID;
 };
-float AIBase::GetAccuracy(float distanceToTarget)
+
+float AIBase::GetAccuracy(float distanceToTarget) const
 {
 	return myEntity->Accuracy(distanceToTarget);
 };
-void AIBase::TakeDamage(uint16_t damage)
+
+void AIBase::TakeDamage(float damage) const
 {
-	myEntity->TakeDamage(damage);
+	myEntity->TakeDamage(uint16_t(floor(damage)));
 };
-float AIBase::GetPositionX()
+
+float AIBase::GetPositionX() const
 {
-	return myEntity->PositionX();
+	return float(myEntity->PositionX());
 };
-float AIBase::GetPositionY()
+
+float AIBase::GetPositionY() const
 {
-	return myEntity->PositionY();
+	return float(myEntity->PositionY());
 };
-void AIBase::SetPositionX(float position)
+
+void AIBase::SetPositionX(float position) const
 {
-	myEntity->SetPositionX(position);
+	myEntity->SetPositionX(int(floor(position)));
 };
-void AIBase::SetPositionY(float position)
+
+void AIBase::SetPositionY(float position) const
 {
-	myEntity->SetPositionY(position);
+	myEntity->SetPositionY(int(floor(position)));
 };

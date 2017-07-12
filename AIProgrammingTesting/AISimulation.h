@@ -10,7 +10,7 @@ private:
 	void InitializeAIs(int nrOfAgents);
 
 	bool Turn(); //Returns false when the "simulation" is done
-	void PresentResults(); //Print out the curves to the screen
+	void PresentResults() const; //Print out the curves to the screen
 
 	void UpdateAIs();
 	void AddPointsOnCurves(); //Add the points (turn, life) for each AI's curve
@@ -23,10 +23,11 @@ private:
 		UINT symbolID;
 		UINT curveID;
 		std::deque<Map2D::Direction> path;
-		D2DClass::BrushColour *colour;
+		D2DClass::BrushColour* colour;
 	};
-	D2DClass *d2d;
-	Map2D	*map;
+
+	D2DClass* d2d;
+	Map2D* map;
 	std::vector<AIInformation> Agents;
 	UINT symbolVectorID;
 	unsigned int numberOfTurnsDone;

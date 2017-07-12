@@ -13,5 +13,5 @@ class UtilityBasedAI :
 public:
 	UtilityBasedAI(uint16_t life, float positionX, float positionY);
 	~UtilityBasedAI();
-	AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID, Map2D *map);
+	AllowedActions DecideAction(std::vector<AIBase*> allAIs, unsigned int myID, Map2D* map) override;
 };

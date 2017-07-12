@@ -11,8 +11,8 @@ ShotgunWeapon::ShotgunWeapon()
 	this->damageDecayExponent = 2.1f;
 	this->damageDecayShift = 0;
 
-	this->accuracy = 0.95;
-	this->accuracyDecayExponent = 2.5;
+	this->accuracy = 0.95f;
+	this->accuracyDecayExponent = 2.5f;
 	this->accuracyDevisor = 15000;
 	this->accuracyDecayShift = 0;
 }

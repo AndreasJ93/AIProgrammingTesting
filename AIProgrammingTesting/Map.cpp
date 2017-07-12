@@ -1,6 +1,5 @@
 #include "Map.h"
 #include <random>
-#include <queue>
 #include <deque>
 #include <unordered_map>
 
@@ -8,6 +7,8 @@ Map2D::Map2D()
 {
 	set = nullptr;
 	mapGrid = nullptr;
+	height = 0;
+	width = 0;
 }
 
 Map2D::~Map2D()
@@ -32,22 +33,16 @@ int Map2D::find(int x) const
 	{
 		return x;
 	}
-	else
-	{
-		return find(set[x]);
-	}
+	return find(set[x]);
 }
 
-int Map2D::findCompress(int x)
+int Map2D::findCompress(int x) const
 {
 	if (set[x] < 0)
 	{
 		return x;
 	}
-	else
-	{
-		return set[x] = findCompress(set[x]);
-	}
+	return set[x] = findCompress(set[x]);
 }
 
 int Map2D::setHeight(int x) const
@@ -55,7 +50,7 @@ int Map2D::setHeight(int x) const
 	return set[find(x)];
 }
 
-void Map2D::unionSetsRank(int root1, int root2)
+void Map2D::unionSetsRank(int root1, int root2) const
 {
 	if (setHeight(root1) <= setHeight(root2))
 	{
@@ -71,7 +66,7 @@ void Map2D::unionSetsRank(int root1, int root2)
 	}
 }
 
-std::vector<Map2D::Map2DWallData> &Map2D::GenerateMaze(int height, int width)
+std::vector<Map2D::Map2DWallData>& Map2D::GenerateMaze(int height, int width)
 {
 	/*Cleaning up*/
 	if (set)
@@ -85,11 +80,11 @@ std::vector<Map2D::Map2DWallData> &Map2D::GenerateMaze(int height, int width)
 		delete[] mapGrid;
 		dataPoints.clear();
 	}
-	this->height = height;	//y-coordinates
-	this->width = width;	//x-coordinates
+	this->height = height; //y-coordinates
+	this->width = width; //x-coordinates
 	/*Setup*/
-	set = new int[height*width];
-	for (int i = 0; i < height*width; i++)
+	set = new int[height * width];
+	for (int i = 0; i < height * width; i++)
 		set[i] = -1;
 
 	mapGrid = new Grid*[width];
@@ -105,21 +100,20 @@ std::vector<Map2D::Map2DWallData> &Map2D::GenerateMaze(int height, int width)
 			mapGrid[i][j].position = std::pair<int, int>(i, j);
 		}
 	}
-	distribution = std::uniform_int_distribution<int>(0, height*width - 1);
+	distribution = std::uniform_int_distribution<int>(0, height * width - 1);
 	distributionHeight = std::uniform_int_distribution<int>(0, height - 1);
 	distributionWidth = std::uniform_int_distribution<int>(0, width - 1);
 	/*Create the maze*/
 
-	int roomsYetToBecombined = width*height;
-	int gridCell1;
-	int gridCell2;
-	int numberOfCells = width*height - 1; //(0 -> width*height - 1)
-	Direction direction;
+	int roomsYetToBecombined = width * height;
+	int numberOfCells = width * height - 1; //(0 -> width*height - 1)
+
 	do
 	{
 		bool changed = false;
-		gridCell1 = distribution(generator);
-		direction = Direction(rand() % 4);
+		int gridCell1 = distribution(generator);
+		int gridCell2 = 0;
+		Direction direction = Direction(rand() % 4);
 		switch (direction)
 		{
 		case UP:
@@ -195,42 +189,44 @@ std::vector<Map2D::Map2DWallData> &Map2D::GenerateMaze(int height, int width)
 	/*Create the datapoints for the map*/
 	for (int i = 0; i < width; i++)
 	{
+		float xValue = float(i);
 		for (int j = 0; j < height; j++)
 		{
+			float yValue = float(j);
 			if (mapGrid[i][j].topWall)
 			{
 				Map2DWallData toAdd;
-				toAdd.xStart = i;
-				toAdd.xEnd = i + 1;
-				toAdd.yStart = j;
-				toAdd.yEnd = j;
+				toAdd.xStart = xValue;
+				toAdd.xEnd = xValue + 1.0f;
+				toAdd.yStart = yValue;
+				toAdd.yEnd = yValue;
 				dataPoints.push_back(toAdd);
 			}
 			if (mapGrid[i][j].bottomWall)
 			{
 				Map2DWallData toAdd;
-				toAdd.xStart = i;
-				toAdd.xEnd = i + 1;
-				toAdd.yStart = j + 1;
-				toAdd.yEnd = j + 1;
+				toAdd.xStart = xValue;
+				toAdd.xEnd = xValue + 1.0f;
+				toAdd.yStart = yValue + 1.0f;
+				toAdd.yEnd = yValue + 1.0f;
 				dataPoints.push_back(toAdd);
 			}
 			if (mapGrid[i][j].leftWall)
 			{
 				Map2DWallData toAdd;
-				toAdd.xStart = i;
-				toAdd.xEnd = i;
-				toAdd.yStart = j;
-				toAdd.yEnd = j + 1;
+				toAdd.xStart = xValue;
+				toAdd.xEnd = xValue;
+				toAdd.yStart = yValue;
+				toAdd.yEnd = yValue + 1.0f;
 				dataPoints.push_back(toAdd);
 			}
 			if (mapGrid[i][j].rightWall)
 			{
 				Map2DWallData toAdd;
-				toAdd.xStart = i + 1;
-				toAdd.xEnd = i + 1;
-				toAdd.yStart = j;
-				toAdd.yEnd = j + 1;
+				toAdd.xStart = xValue + 1.0f;
+				toAdd.xEnd = xValue + 1.0f;
+				toAdd.yStart = yValue;
+				toAdd.yEnd = yValue + 1.0f;
 				dataPoints.push_back(toAdd);
 			}
 		}
@@ -251,7 +247,7 @@ unsigned int Map2D::AddSymbol(Map2DSymbolData::Symbol symbolType, int positionX,
 
 	symbols.push_back(toBeAdded);
 
-	return symbols.size() - 1;
+	return unsigned int(symbols.size() - 1);
 }
 
 void Map2D::MoveSymbol(unsigned int ID, int newPositionX, int newPositionY, float newSizeX, float newSizeY)
@@ -342,7 +338,7 @@ void Map2D::MarkSymbolAsUnusedOrUsed(unsigned int ID, bool used)
 	symbols[ID].used = used;
 }
 
-Map2D::Map2DSymbolData & Map2D::GetSymbol(unsigned int ID)
+Map2D::Map2DSymbolData& Map2D::GetSymbol(unsigned int ID)
 {
 	return symbols[ID];
 }
@@ -357,11 +353,11 @@ std::vector<Map2D::Map2DWallData>& Map2D::GetMazePoints()
 	return dataPoints;
 }
 
-std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int startPointY, int goalPointX, int goalPointY)
+std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int startPointY, int goalPointX, int goalPointY) const
 {
 	std::vector<MapPoint*> openList; //pair(x,y) for next point
 	std::vector<MapPoint*> closedList;
-	std::deque<Map2D::Direction> path;
+	std::deque<Direction> path;
 
 	MapPoint goal;
 	goal.position = std::pair<int, int>(goalPointX, goalPointY);
@@ -402,7 +398,7 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 		auto tempPosition = temp.position;
 		if (!mapGrid[tempPosition.first][tempPosition.second].topWall)
 		{
-			MapPoint *nodeToAdd;
+			MapPoint* nodeToAdd;
 			bool inOpenList = false;
 			bool alreadyChecked = false;
 			for (auto closedNodes : closedList)
@@ -429,7 +425,6 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 				}
 				if (!inOpenList)
 				{
-					ID = -1;
 					nodeToAdd = new MapPoint();
 					nodeToAdd->position = std::pair<int, int>(tempPosition.first, tempPosition.second - 1);
 					nodeToAdd->gScore = temp.gScore + 1;
@@ -453,7 +448,7 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 		}
 		if (!mapGrid[tempPosition.first][tempPosition.second].bottomWall)
 		{
-			MapPoint *nodeToAdd;
+			MapPoint* nodeToAdd;
 			bool inOpenList = false;
 			bool alreadyChecked = false;
 			for (auto closedNodes : closedList)
@@ -480,7 +475,6 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 				}
 				if (!inOpenList)
 				{
-					ID = -1;
 					nodeToAdd = new MapPoint();
 					nodeToAdd->position = std::pair<int, int>(tempPosition.first, tempPosition.second + 1);
 					nodeToAdd->gScore = temp.gScore + 1;
@@ -504,7 +498,7 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 		}
 		if (!mapGrid[tempPosition.first][tempPosition.second].rightWall)
 		{
-			MapPoint *nodeToAdd;
+			MapPoint* nodeToAdd;
 			bool inOpenList = false;
 			bool alreadyChecked = false;
 			for (auto closedNodes : closedList)
@@ -531,7 +525,6 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 				}
 				if (!inOpenList)
 				{
-					ID = -1;
 					nodeToAdd = new MapPoint();
 					nodeToAdd->position = std::pair<int, int>(tempPosition.first + 1, tempPosition.second);
 					nodeToAdd->gScore = temp.gScore + 1;
@@ -555,7 +548,7 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 		}
 		if (!mapGrid[tempPosition.first][tempPosition.second].leftWall)
 		{
-			MapPoint *nodeToAdd;
+			MapPoint* nodeToAdd;
 			bool inOpenList = false;
 			bool alreadyChecked = false;
 			for (auto closedNodes : closedList)
@@ -582,7 +575,6 @@ std::deque<Map2D::Direction> Map2D::GetPathBetweenPoints(int startPointX, int st
 				}
 				if (!inOpenList)
 				{
-					ID = -1;
 					nodeToAdd = new MapPoint();
 					nodeToAdd->position = std::pair<int, int>(tempPosition.first - 1, tempPosition.second);
 					nodeToAdd->gScore = temp.gScore + 1;
@@ -639,7 +631,7 @@ std::pair<int, int> Map2D::GetRandomPointInMaze()
 	return std::pair<int, int>(distributionWidth(generator), distributionHeight(generator));
 }
 
-bool Map2D::LineOfSight(int originX, int originY, int pointX, int pointY)
+bool Map2D::LineOfSight(int originX, int originY, int pointX, int pointY) const
 {
 	if (originX != pointX && originY != pointY)
 	{
@@ -698,7 +690,7 @@ bool Map2D::LineOfSight(int originX, int originY, int pointX, int pointY)
 	return true;
 }
 
-bool Map2D::CanMoveInDirectionFromPoint(int originX, int originY, Direction direction, bool adhereToWalls)
+bool Map2D::CanMoveInDirectionFromPoint(int originX, int originY, Direction direction, bool adhereToWalls) const
 {
 	switch (direction)
 	{

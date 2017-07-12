@@ -1,6 +1,24 @@
 #include "WeaponBase.h"
 #include <math.h>
 
+WeaponBase::WeaponBase()
+{
+	currentAmmo = 0;
+	maxAmmo = 0;
+	reloadTime = 0;
+	roundsToReloadFinished = 0;
+
+	damage = 0;
+	damageDevisor = 0;
+	damageDecayExponent = 0.0f;
+	damageDecayShift = 0;
+
+	accuracy = 0.0f;
+	accuracyDecayExponent = 0.0f;
+	accuracyDevisor = 0;
+	accuracyDecayShift = 0;
+}
+
 WeaponBase::~WeaponBase()
 {
 	//Empty
@@ -8,7 +26,7 @@ WeaponBase::~WeaponBase()
 
 float WeaponBase::Damage(float distanceToTarget)
 {
-	return std::fmaxf(0, damage - (pow(distanceToTarget - damageDecayShift, damageDecayExponent) / damageDevisor));
+	return fmaxf(0, damage - (powf(distanceToTarget - damageDecayShift, damageDecayExponent) / damageDevisor));
 }
 
 bool WeaponBase::Fire()
@@ -49,5 +67,5 @@ uint16_t WeaponBase::CurrentAmmo()
 
 float WeaponBase::Accuracy(float distanceToTarget)
 {
-	return std::fmaxf(0, accuracy - (pow(distanceToTarget - accuracyDecayShift, accuracyDecayExponent) / accuracyDevisor));
+	return fmaxf(0, accuracy - (powf(distanceToTarget - accuracyDecayShift, accuracyDecayExponent) / accuracyDevisor));
 }

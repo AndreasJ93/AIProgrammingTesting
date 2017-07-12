@@ -11,8 +11,8 @@ AutomaticWeapon::AutomaticWeapon()
 	this->damageDecayExponent = 2.0f;
 	this->damageDecayShift = 0;
 
-	this->accuracy = 0.80;
-	this->accuracyDecayExponent = 1.8;
+	this->accuracy = 0.80f;
+	this->accuracyDecayExponent = 1.8f;
 	this->accuracyDevisor = 50000;
 	this->accuracyDecayShift = 0;
 }

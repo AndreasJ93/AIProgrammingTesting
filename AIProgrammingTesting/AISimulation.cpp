@@ -1,6 +1,7 @@
 #include "AISimulation.h"
 #include "UtilityBasedAI.h"
 #include <string>
+
 void AISimulation::InitializeAIs(int nrOfAgents)
 {
 	for (int i = 0; i < nrOfAgents; i++)
@@ -10,13 +11,13 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		std::pair<int, int> goal = map->GetRandomPointInMaze();
 		AIInformation agent;
 		agent.curveID = d2d->AddDataVector();
-		D2DClass::BrushColour *brush;
 		auto temp = d2d->RandomBrushColour(0, 100, 0, 100, 25, 100);
-		brush = new D2DClass::BrushColour(temp);
+		D2DClass::BrushColour* brush = new D2DClass::BrushColour(temp);
+
 		d2d->SetBrushColour(agent.curveID, temp);
-		agent.agent = new UtilityBasedAI(rand() % 100 + 250, startPoint.first, startPoint.second);
+		agent.agent = new UtilityBasedAI(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
 		agent.path = map->GetPathBetweenPoints(startPoint.first, startPoint.second, goal.first, goal.second);
-		agent.symbolID = map->AddSymbol(Map2D::Map2DSymbolData::CIRCLE, startPoint.first, startPoint.second, 0.25f*scaleX, 0.25f*scaleY);
+		agent.symbolID = map->AddSymbol(Map2D::Map2DSymbolData::CIRCLE, startPoint.first, startPoint.second, 0.25f * scaleX, 0.25f * scaleY);
 		agent.colour = brush;
 		Agents.push_back(agent);
 	}
@@ -31,7 +32,7 @@ bool AISimulation::Turn()
 	return Done();
 }
 
-void AISimulation::PresentResults()
+void AISimulation::PresentResults() const
 {
 	d2d->UpdateAll();
 	d2d->Draw();
@@ -41,16 +42,16 @@ void AISimulation::UpdateAIs()
 {
 	unsigned int ID = 0;
 	std::vector<AIBase*> allAgents;
-	for (auto &it : Agents)
+	for (auto& it : Agents)
 		allAgents.push_back(it.agent);
-	for (auto &AI : Agents)
+	for (auto& AI : Agents)
 	{
 		auto circle = map->GetSymbol(AI.symbolID);
 		if (AI.agent->GetLife())
 		{
 			switch (AI.agent->DecideAction(allAgents, ID, map))
 			{
-			case AllowedActions::ACTION_FIRE:
+			case ACTION_FIRE:
 			{
 				//Get target, get damage, deal damage to the target ("perform action" call?)
 				uint16_t targetID = AI.agent->GetTarget();
@@ -62,19 +63,19 @@ void AISimulation::UpdateAIs()
 				}
 				break;
 			}
-			case AllowedActions::ACTION_RELOAD:
+			case ACTION_RELOAD:
 			{
 				//Perform the reload
 				AI.agent->Reload();
 				break;
 			}
-			case AllowedActions::ACTION_HEAL:
+			case ACTION_HEAL:
 			{
 				//Perform the healing action
 				AI.agent->Heal(rand() % 50);
 				break;
 			}
-			case AllowedActions::ACTION_MOVE:
+			case ACTION_MOVE:
 				if (!AI.path.empty())
 				{
 					map->MoveSymbol(AI.symbolID, AI.path.front(), true);
@@ -86,11 +87,11 @@ void AISimulation::UpdateAIs()
 				else
 				{
 					auto newPoint = map->GetRandomPointInMaze();
-					AI.path = map->GetPathBetweenPoints(floor(circle.positionX), floor(circle.positionY), newPoint.first, newPoint.second);
+					AI.path = map->GetPathBetweenPoints(int(floor(circle.positionX)), int(floor(circle.positionY)), newPoint.first, newPoint.second);
 				}
 				break;
 			}
-			d2d->AddEllipse(symbolVectorID, circle.positionX*scaleX + offsetX, circle.positionY*scaleY + offsetY, circle.sizeX, circle.sizeY, true, AI.colour);
+			d2d->AddEllipse(symbolVectorID, circle.positionX * scaleX + offsetX, circle.positionY * scaleY + offsetY, circle.sizeX, circle.sizeY, true, AI.colour);
 		}
 
 		ID++;
@@ -99,31 +100,31 @@ void AISimulation::UpdateAIs()
 
 void AISimulation::AddPointsOnCurves()
 {
-	for (auto &AI : Agents)
+	for (auto& AI : Agents)
 	{
-		d2d->AddPoint(AI.curveID, numberOfTurnsDone, AI.agent->GetLife());
+		d2d->AddPoint(AI.curveID, float(numberOfTurnsDone), AI.agent->GetLife());
 	}
 }
 
 void AISimulation::AddSymbolsOnCurves()
 {
-	for (auto &AI : Agents)
+	for (auto& AI : Agents)
 	{
 		if (AI.agent->GetLife())
 		{
 			switch (AI.agent->GetLastPerformedAction())
 			{
-			case AllowedActions::ACTION_FIRE:
+			case ACTION_FIRE:
 			{
 				//"If nothing is put out, it's a fire"
 				break;
 			}
-			case AllowedActions::ACTION_RELOAD:
+			case ACTION_RELOAD:
 			{
-				d2d->AddCircle(AI.curveID, numberOfTurnsDone, AI.agent->GetLife(), .5f);
+				d2d->AddCircle(AI.curveID, float(numberOfTurnsDone), AI.agent->GetLife(), .5f);
 				break;
 			}
-			case AllowedActions::ACTION_HEAL:
+			case ACTION_HEAL:
 			{
 				d2d->AddRect(AI.curveID, float(numberOfTurnsDone),
 					float(AI.agent->GetLife()),
@@ -131,6 +132,9 @@ void AISimulation::AddSymbolsOnCurves()
 					.5f);
 				break;
 			}
+			case ACTION_MOVE:
+
+				break;
 			}
 		}
 	}
@@ -139,7 +143,7 @@ void AISimulation::AddSymbolsOnCurves()
 bool AISimulation::Done()
 {
 	nrOfAgentsAlive = 0;
-	for (auto &AI : Agents)
+	for (auto& AI : Agents)
 	{
 		if (AI.agent->GetLife())
 		{
@@ -159,7 +163,7 @@ AISimulation::AISimulation(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 	sizeY = mazeHeight;
 	sizeScale = float(sizeX) / float(sizeY);
 	offsetX = 10.0f;
-	offsetY = offsetX*sizeScale*d2d->GetWindowScale();
+	offsetY = offsetX * sizeScale * d2d->GetWindowScale();
 
 	if (sizeY > sizeX)
 	{

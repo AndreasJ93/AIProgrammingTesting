@@ -1,5 +1,6 @@
 #include "UtilityBasedAI.h"
 #include <algorithm>
+
 UtilityBasedAI::UtilityBasedAI(uint16_t life, float positionX, float positionY) : AIBase(life, positionX, positionY)
 {
 	//Add entity creation here!
@@ -28,29 +29,33 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 		float maximumAccuracy = 0.0f;
 		struct threatFloat
 		{
-			threatFloat(unsigned int id, float threatRatios) { this->id = id; this->threatRatios = threatRatios; };
+			threatFloat(unsigned int id, float threatRatios)
+			{
+				this->id = id;
+				this->threatRatios = threatRatios;
+			};
 			unsigned int id;
 			float threatRatios;
-			bool operator<(threatFloat &rhs) { return this->threatRatios < rhs.threatRatios ? true : false; }
+			bool operator<(const threatFloat& rhs) const { return this->threatRatios < rhs.threatRatios ? true : false; }
 		};
 		std::vector<threatFloat> threatRatios;
 		int positionX = myEntity->PositionX();
 		int positionY = myEntity->PositionY();
-		for (auto &agents : allAIs)
+		for (auto& agents : allAIs)
 		{
-			int enemyPosX = agents->GetPositionX();
-			int enemyPosY = agents->GetPositionY();
+			int enemyPosX = int(floor(agents->GetPositionX()));
+			int enemyPosY = int(floor(agents->GetPositionY()));
 			if (myID != ID && agents->GetLife() && map->LineOfSight(positionX, positionY, enemyPosX, enemyPosY))
 			{
-				float distance = sqrt(pow(enemyPosX - positionX, 2) + pow(enemyPosY - positionY, 2));
+				float distance = sqrtf(powf(float(enemyPosX - positionX), 2) + powf(float(enemyPosY - positionY), 2));
 				float accuracy = this->GetAccuracy(distance);
 				if (accuracy > maximumAccuracy)
 					maximumAccuracy = accuracy;
 
 				if (accuracy > 0.25f) //Only attack "far away" targets
 				{
-					float timeToKill = agents->GetLife() / (this->GetDamage(distance)*this->myEntity->Accuracy(distance));
-					float timeToKillMe = this->GetLife() / (agents->GetDamage(distance)*agents->GetAccuracy(distance));
+					float timeToKill = agents->GetLife() / (this->GetDamage(distance) * this->myEntity->Accuracy(distance));
+					float timeToKillMe = this->GetLife() / (agents->GetDamage(distance) * agents->GetAccuracy(distance));
 					float threat = (timeToKillMe + (3 * timeToKill)) / 4;
 					threatRatios.push_back(threatFloat(ID, threat));
 				}
@@ -59,7 +64,7 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 		}
 		if (maximumAccuracy > 0.25f) //We have a "close" target
 		{
-			std::sort(threatRatios.begin(), threatRatios.end());
+			sort(threatRatios.begin(), threatRatios.end());
 			targetID = threatRatios[0].id;
 			lastAction = ACTION_FIRE;
 		}
@@ -68,7 +73,8 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 			lastAction = ACTION_MOVE;
 		}
 	}
-	else {
+	else
+	{
 		targetID = -1;
 		lastAction = ACTION_RELOAD;
 	}

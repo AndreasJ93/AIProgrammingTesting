@@ -1,5 +1,6 @@
 #pragma once
 #include "WeaponBase.h"
+
 class BasicWeapon :
 	public WeaponBase
 {
@@ -8,6 +9,4 @@ public:
 		float accuracy, uint16_t damageDevisor, float damageDecayExponent,
 		float accuracyDecayExponen, uint16_t accuracyDevisor);
 	~BasicWeapon();
-
-private:
 };
