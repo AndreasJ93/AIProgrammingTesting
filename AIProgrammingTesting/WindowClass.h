@@ -9,11 +9,11 @@ class Window
 {
 public:
 	Window(HINSTANCE hInstance,
-	       HINSTANCE hPrevInstance,
-	       LPSTR lpCmdLine,
-	       int nCmdShow,
-	       int height = WINDOW_HEIGHT,
-	       int width = WINDOW_WIDTH);
+		HINSTANCE hPrevInstance,
+		LPSTR lpCmdLine,
+		int nCmdShow,
+		int height = WINDOW_HEIGHT,
+		int width = WINDOW_WIDTH);
 
 	bool run();
 	HWND& getHWND();
@@ -23,7 +23,7 @@ private:
 	HWND hWnd;
 	MSG msg;
 	static LRESULT CALLBACK WindowProc(HWND hWnd,
-	                                   UINT message,
-	                                   WPARAM wParam,
-	                                   LPARAM lParam);
+		UINT message,
+		WPARAM wParam,
+		LPARAM lParam);
 };
