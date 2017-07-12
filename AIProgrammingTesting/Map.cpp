@@ -131,7 +131,7 @@ std::vector<Map2D::Map2DWallData>& Map2D::GenerateMaze(int height, int width)
 			}
 			break;
 		case LEFT:
-			if (gridCell1 != 0 && (gridCell1 % width != 0))
+			if (gridCell1 != 0 && gridCell1 % width != 0)
 			{
 				gridCell2 = gridCell1 - 1;
 				changed = true;
@@ -139,7 +139,7 @@ std::vector<Map2D::Map2DWallData>& Map2D::GenerateMaze(int height, int width)
 			break;
 		case RIGHT:
 
-			if (gridCell1 != numberOfCells && ((gridCell1 + 1) % width != 0))
+			if (gridCell1 != numberOfCells && (gridCell1 + 1) % width != 0)
 			{
 				gridCell2 = gridCell1 + 1;
 				changed = true;
@@ -271,7 +271,7 @@ void Map2D::MoveSymbol(unsigned int ID, Direction direction, bool adhereToWalls)
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[x][y].topWall))
+				if (!mapGrid[x][y].topWall)
 				{
 					symbol->positionY -= 1.0f;
 				}
@@ -287,7 +287,7 @@ void Map2D::MoveSymbol(unsigned int ID, Direction direction, bool adhereToWalls)
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[x][y].bottomWall))
+				if (!mapGrid[x][y].bottomWall)
 				{
 					symbol->positionY += 1.0f;
 				}
@@ -303,7 +303,7 @@ void Map2D::MoveSymbol(unsigned int ID, Direction direction, bool adhereToWalls)
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[x][y].leftWall))
+				if (!mapGrid[x][y].leftWall)
 				{
 					symbol->positionX -= 1.0f;
 				}
@@ -319,7 +319,7 @@ void Map2D::MoveSymbol(unsigned int ID, Direction direction, bool adhereToWalls)
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[x][y].rightWall))
+				if (!mapGrid[x][y].rightWall)
 				{
 					symbol->positionX += 1.0f;
 				}
@@ -699,7 +699,7 @@ bool Map2D::CanMoveInDirectionFromPoint(int originX, int originY, Direction dire
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[originX][originY].topWall))
+				if (!mapGrid[originX][originY].topWall)
 				{
 					return true;
 				}
@@ -715,7 +715,7 @@ bool Map2D::CanMoveInDirectionFromPoint(int originX, int originY, Direction dire
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[originX][originY].bottomWall))
+				if (!mapGrid[originX][originY].bottomWall)
 				{
 					return true;
 				}
@@ -731,7 +731,7 @@ bool Map2D::CanMoveInDirectionFromPoint(int originX, int originY, Direction dire
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[originX][originY].leftWall))
+				if (!mapGrid[originX][originY].leftWall)
 				{
 					return true;
 				}
@@ -747,7 +747,7 @@ bool Map2D::CanMoveInDirectionFromPoint(int originX, int originY, Direction dire
 		{
 			if (adhereToWalls)
 			{
-				if (!(mapGrid[originX][originY].rightWall))
+				if (!mapGrid[originX][originY].rightWall)
 				{
 					return true;
 				}

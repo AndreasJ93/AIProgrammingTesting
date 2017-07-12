@@ -41,7 +41,7 @@ private:
 	float scaleX;
 	float scaleY;
 public:
-	AISimulation(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int mazeWidth, int mazeHeight, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
+	AISimulation(HINSTANCE hInstance, int nCmdShow, int mazeWidth, int mazeHeight, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
 	~AISimulation();
 	void RunSimulation(int nrOfAgents);
 };

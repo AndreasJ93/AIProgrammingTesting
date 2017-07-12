@@ -26,7 +26,7 @@ WeaponBase::~WeaponBase()
 
 float WeaponBase::Damage(float distanceToTarget)
 {
-	return fmaxf(0, damage - (powf(distanceToTarget - damageDecayShift, damageDecayExponent) / damageDevisor));
+	return fmaxf(0, damage - powf(distanceToTarget - damageDecayShift, damageDecayExponent) / damageDevisor);
 }
 
 bool WeaponBase::Fire()
@@ -67,5 +67,5 @@ uint16_t WeaponBase::CurrentAmmo()
 
 float WeaponBase::Accuracy(float distanceToTarget)
 {
-	return fmaxf(0, accuracy - (powf(distanceToTarget - accuracyDecayShift, accuracyDecayExponent) / accuracyDevisor));
+	return fmaxf(0, accuracy - powf(distanceToTarget - accuracyDecayShift, accuracyDecayExponent) / accuracyDevisor);
 }

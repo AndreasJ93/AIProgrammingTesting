@@ -15,7 +15,7 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 	//COMMENT THIS AI IN DETAIL!
 	if (myEntity->GetLife() < 15)
 	{
-		if ((rand() % 5) == 0)
+		if (rand() % 5 == 0)
 		{
 			targetID = -1;
 			lastAction = ACTION_HEAL;
@@ -56,7 +56,7 @@ AllowedActions UtilityBasedAI::DecideAction(std::vector<AIBase*> allAIs, unsigne
 				{
 					float timeToKill = agents->GetLife() / (this->GetDamage(distance) * this->myEntity->Accuracy(distance));
 					float timeToKillMe = this->GetLife() / (agents->GetDamage(distance) * agents->GetAccuracy(distance));
-					float threat = (timeToKillMe + (3 * timeToKill)) / 4;
+					float threat = (timeToKillMe + 3 * timeToKill) / 4;
 					threatRatios.push_back(threatFloat(ID, threat));
 				}
 			}

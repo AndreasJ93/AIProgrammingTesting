@@ -7,15 +7,15 @@
 // the WindowProc function prototype
 
 int WINAPI WinMain(HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine,
+	HINSTANCE /*hPrevInstance*/,
+	LPSTR /*lpCmdLine*/,
 	int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	auto seed = time(nullptr);
 	srand(unsigned int(seed));
 
-	AISimulation simulation(hInstance, hPrevInstance, lpCmdLine, nCmdShow, 16, 8);
+	AISimulation simulation(hInstance, nCmdShow, 16, 8);
 	simulation.RunSimulation(20);
 
 	return 0;

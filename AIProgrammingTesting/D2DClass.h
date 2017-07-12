@@ -85,7 +85,7 @@ private:
 	std::vector<std::pair<D2D1_POINT_2F, D2D1_POINT_2F>> mapLinePoints;
 
 public:
-	D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
+	D2DClass(HINSTANCE hInstance, int nCmdShow, int height = WINDOW_HEIGHT, int width = WINDOW_WIDTH);
 	~D2DClass();
 	float GetWindowScale() const;
 	bool run();

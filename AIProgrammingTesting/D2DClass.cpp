@@ -1,7 +1,7 @@
 #include "D2DClass.h"
 #define _USE_MATH_DEFINES
 
-D2DClass::D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int height, int width)
+D2DClass::D2DClass(HINSTANCE hInstance, int nCmdShow, int height, int width)
 {
 	pRenderTarget = nullptr;
 	pBrush = nullptr;
@@ -15,7 +15,7 @@ D2DClass::D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = GetModuleHandle(nullptr);
+	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW);
 	wc.lpszClassName = L"WindowClass1";
@@ -34,7 +34,7 @@ D2DClass::D2DClass(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		height, // height of the window
 		nullptr, // we have no parent window, NULL
 		nullptr, // we aren't using menus, NULL
-		GetModuleHandle(nullptr), // application handle
+		hInstance, // application handle
 		this); // used with multiple windows, NULL
 
 // display the window on the screen
@@ -51,9 +51,9 @@ D2DClass::~D2DClass()
 	DiscardGraphicsResources();
 	for (auto& i : pGeometry)
 	{
-		SafeRelease(&(i->pathGeometry));
-		SafeRelease(&(i->brush));
-		SafeRelease(&(i->dataSink));
+		SafeRelease(&i->pathGeometry);
+		SafeRelease(&i->brush);
+		SafeRelease(&i->dataSink);
 		for (auto& j : i->figureGeometry)
 		{
 			if (j.colour)
@@ -63,8 +63,8 @@ D2DClass::~D2DClass()
 	}
 	for (auto text : texts)
 	{
-		SafeRelease(&(text.Brush));
-		SafeRelease(&(text.TextLayout));
+		SafeRelease(&text.Brush);
+		SafeRelease(&text.TextLayout);
 	}
 }
 
@@ -370,7 +370,7 @@ void D2DClass::Update(UINT symbolsID)
 	HRESULT hr = CreateGraphicsResources();
 	if (SUCCEEDED(hr))
 	{
-		float segmentWidth = (width * 1.0f) / normalizationValues.first;
+		float segmentWidth = width * 1.0f / normalizationValues.first;
 		float segmentHeight = (height * 1.0f - 20.0f) / normalizationValues.second;
 		if (symbolsID != -1)
 		{
@@ -381,7 +381,7 @@ void D2DClass::Update(UINT symbolsID)
 				SafeRelease(&toBeUpdated->pathGeometry);
 				auto dataSink = toBeUpdated->dataSink;
 
-				hr = pFactory->CreatePathGeometry(&(toBeUpdated->pathGeometry));
+				hr = pFactory->CreatePathGeometry(&toBeUpdated->pathGeometry);
 				if (SUCCEEDED(hr))
 				{
 					hr = toBeUpdated->pathGeometry->Open(&dataSink);
@@ -394,7 +394,6 @@ void D2DClass::Update(UINT symbolsID)
 								height - abs(iterator->second * segmentHeight)),
 							D2D1_FIGURE_BEGIN_FILLED);
 						++iterator;
-						std::vector<D2D1_POINT_2F> points;
 						for (iterator; iterator != iteratorEnd; ++iterator)
 						{
 							dataSink->AddLine(D2D1::Point2F(iterator->first * segmentWidth,
@@ -414,7 +413,7 @@ void D2DClass::UpdateAll()
 	HRESULT hr = CreateGraphicsResources();
 	if (SUCCEEDED(hr))
 	{
-		float segmentWidth = (width * 1.0f) / normalizationValues.first;
+		float segmentWidth = width * 1.0f / normalizationValues.first;
 		float segmentHeight = (height * 1.0f - 20.0f) / normalizationValues.second;
 		for (auto& toBeUpdated : pGeometry)
 		{
@@ -424,7 +423,7 @@ void D2DClass::UpdateAll()
 				SafeRelease(&toBeUpdated->pathGeometry);
 				auto dataSink = toBeUpdated->dataSink;
 
-				hr = pFactory->CreatePathGeometry(&(toBeUpdated->pathGeometry));
+				hr = pFactory->CreatePathGeometry(&toBeUpdated->pathGeometry);
 				if (SUCCEEDED(hr))
 				{
 					hr = toBeUpdated->pathGeometry->Open(&dataSink);
@@ -437,7 +436,6 @@ void D2DClass::UpdateAll()
 								height - abs(iterator->second * segmentHeight)),
 							D2D1_FIGURE_BEGIN_FILLED);
 						++iterator;
-						std::vector<D2D1_POINT_2F> points;
 						for (iterator; iterator != iteratorEnd; ++iterator)
 						{
 							dataSink->AddLine(D2D1::Point2F(iterator->first * segmentWidth,
@@ -457,7 +455,7 @@ void D2DClass::Draw(UINT symbolsID)
 	HRESULT hr = CreateGraphicsResources();
 	if (SUCCEEDED(hr))
 	{
-		float segmentWidth = (width * 1.0f) / normalizationValues.first;
+		float segmentWidth = width * 1.0f / normalizationValues.first;
 		float segmentHeight = (height * 1.0f - 20.f) / normalizationValues.second;
 		float ratio = normalizationValues.first / normalizationValues.second;
 
@@ -511,9 +509,9 @@ void D2DClass::Draw(UINT symbolsID)
 					D2D1_RECT_F rectangle;
 
 					rectangle.left = geometry.origin.x * segmentWidth - geometry.width / ratio;
-					rectangle.top = height - abs((geometry.origin.y * segmentHeight + geometry.height / ratio));
+					rectangle.top = height - abs(geometry.origin.y * segmentHeight + geometry.height / ratio);
 					rectangle.right = geometry.origin.x * segmentWidth + geometry.width / ratio;
-					rectangle.bottom = height - abs((geometry.origin.y * segmentHeight - geometry.height / ratio));
+					rectangle.bottom = height - abs(geometry.origin.y * segmentHeight - geometry.height / ratio);
 					if (geometry.fill)
 						pRenderTarget->FillRectangle(rectangle, toBeRendered->brush);
 					else
@@ -523,9 +521,9 @@ void D2DClass::Draw(UINT symbolsID)
 				case Geometry::ROUNDED_RECTANGLE:
 					D2D1_ROUNDED_RECT roundedRectangle;
 					roundedRectangle.rect.left = geometry.origin.x * segmentWidth - geometry.width / ratio;
-					roundedRectangle.rect.top = height - abs((geometry.origin.y * segmentHeight + geometry.height / ratio));
+					roundedRectangle.rect.top = height - abs(geometry.origin.y * segmentHeight + geometry.height / ratio);
 					roundedRectangle.rect.right = geometry.origin.x * segmentWidth + geometry.width / ratio;
-					roundedRectangle.rect.bottom = height - abs((geometry.origin.y * segmentHeight - geometry.height / ratio));
+					roundedRectangle.rect.bottom = height - abs(geometry.origin.y * segmentHeight - geometry.height / ratio);
 					roundedRectangle.radiusX = geometry.radiusX * segmentWidth;
 					roundedRectangle.radiusY = geometry.radiusY * segmentHeight;
 					if (geometry.fill)

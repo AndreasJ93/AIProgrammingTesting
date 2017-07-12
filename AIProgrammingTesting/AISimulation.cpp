@@ -58,7 +58,7 @@ void AISimulation::UpdateAIs()
 				if (targetID != uint16_t(-1) && AI.agent->Fire())
 				{
 					float distance = sqrt(pow(AI.agent->GetPositionX() - Agents[targetID].agent->GetPositionX(), 2) + pow(AI.agent->GetPositionY() - Agents[targetID].agent->GetPositionY(), 2));
-					if (((rand() % 10000) / 100.0f) / 100.0f <= AI.agent->GetAccuracy(distance))
+					if (rand() % 10000 / 100.0f / 100.0f <= AI.agent->GetAccuracy(distance))
 						Agents[targetID].agent->TakeDamage(AI.agent->GetDamage(distance));
 				}
 				break;
@@ -153,9 +153,9 @@ bool AISimulation::Done()
 	return nrOfAgentsAlive > 1 ? true : false;
 }
 
-AISimulation::AISimulation(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int mazeWidth, int mazeHeight, int height, int width)
+AISimulation::AISimulation(HINSTANCE hInstance, int nCmdShow, int mazeWidth, int mazeHeight, int height, int width)
 {
-	d2d = new D2DClass(hInstance, hPrevInstance, lpCmdLine, nCmdShow, height, width);
+	d2d = new D2DClass(hInstance, nCmdShow, height, width);
 	map = new Map2D();
 	map->GenerateMaze(mazeHeight, mazeWidth);
 
@@ -171,8 +171,8 @@ AISimulation::AISimulation(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 		offsetX /= d2d->GetWindowScale();
 		offsetY /= sizeScale;
 	}
-	scaleX = (WINDOW_WIDTH - 4 * offsetX) / (float(sizeX));
-	scaleY = (WINDOW_HEIGHT - 4 * offsetY) / (float(sizeY));
+	scaleX = (WINDOW_WIDTH - 4 * offsetX) / float(sizeX);
+	scaleY = (WINDOW_HEIGHT - 4 * offsetY) / float(sizeY);
 
 	symbolVectorID = d2d->AddDataVector();
 	d2d->SetBrushColour(symbolVectorID, d2d->RandomBrushColour(0, 100, 0, 100, 25, 100));

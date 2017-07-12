@@ -27,7 +27,7 @@ Entity::Entity(float life, float positionX, float positionY)
 		equipedWeapon = new ShotgunWeapon();
 		break;
 	}
-	accuracyModifier = (rand() % 5) / 100.0f;
+	accuracyModifier = rand() % 5 / 100.0f;
 }
 
 Entity::~Entity()
