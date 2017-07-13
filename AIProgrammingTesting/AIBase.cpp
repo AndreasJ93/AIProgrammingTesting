@@ -76,4 +76,9 @@ void AIBase::SetPositionX(float position) const
 void AIBase::SetPositionY(float position) const
 {
 	myEntity->SetPositionY(int(floor(position)));
+}
+
+Entity* AIBase::GetEntity() const
+{
+	return myEntity;
 };

@@ -1,5 +1,6 @@
 #include "AISimulation.h"
 #include "UtilityBasedAI.h"
+#include "AIFSM.h"
 #include <string>
 
 void AISimulation::InitializeAIs(int nrOfAgents)
@@ -15,7 +16,8 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		D2DClass::BrushColour* brush = new D2DClass::BrushColour(temp);
 
 		d2d->SetBrushColour(agent.curveID, temp);
-		agent.agent = new UtilityBasedAI(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
+		//agent.agent = new UtilityBasedAI(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
+		agent.agent = new AIFSM(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
 		agent.path = map->GetPathBetweenPoints(startPoint.first, startPoint.second, goal.first, goal.second);
 		agent.symbolID = map->AddSymbol(Map2D::Map2DSymbolData::CIRCLE, startPoint.first, startPoint.second, 0.25f * scaleX, 0.25f * scaleY);
 		agent.colour = brush;

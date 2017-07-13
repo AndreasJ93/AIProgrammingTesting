@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "AIBase.h"
+#include "FiniteStateMachine.h"
 
 class AIFSM : public AIBase/*Side 48 in Game AI Pro*/
 {
@@ -10,5 +11,5 @@ public:
 	~AIFSM() override;
 
 private:
-	std::vector<int> temp;
+	FiniteStateMachine stateMachine;
 };

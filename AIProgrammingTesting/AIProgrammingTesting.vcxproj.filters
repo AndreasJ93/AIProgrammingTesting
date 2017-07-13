@@ -49,6 +49,24 @@
     <Filter Include="Source Files\Map">
       <UniqueIdentifier>{5e29e6b5-8520-4b90-bb34-c10e9a4dfe34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Agents\FSM Based\Statemachine">
+      <UniqueIdentifier>{5c137114-69fc-4a0b-8aad-8ab1affd9ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents\FSM Based\Statemachine\Transistions">
+      <UniqueIdentifier>{93d370b1-d1fa-4e13-8f74-a6660ce01439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Agents\FSM Based\StateMachine">
+      <UniqueIdentifier>{5e1e7aac-85d3-4778-9548-5814c52c837d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Agents\FSM Based\StateMachine\Transistions">
+      <UniqueIdentifier>{a407bb24-9bc2-4f65-8378-4a3d4f88ec49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents\FSM Based\Statemachine\States">
+      <UniqueIdentifier>{b84ca09b-e317-4ff1-b387-883cbbafe877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Agents\FSM Based\StateMachine\States">
+      <UniqueIdentifier>{adc5a8f4-b526-4d37-a82e-8c196e821140}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,6 +114,45 @@
     <ClCompile Include="AIFSM.cpp">
       <Filter>Source Files\Agents\FSM Based</Filter>
     </ClCompile>
+    <ClCompile Include="FiniteStateMachine.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionBase.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateBase.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionOnSight.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateHealing.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateMoving.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateAttacking.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionLowHealth.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionNoAmmo.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateReloading.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionReloadingDone.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionHealthy.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMStateTransistionNoEnemy.cpp">
+      <Filter>Source Files\Agents\FSM Based\StateMachine\Transistions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISimulation.h">
@@ -139,6 +196,45 @@
     </ClInclude>
     <ClInclude Include="AIFSM.h">
       <Filter>Header Files\Agents\FSM Based</Filter>
+    </ClInclude>
+    <ClInclude Include="FiniteStateMachine.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionBase.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateBase.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionOnSight.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateHealing.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateMoving.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateAttacking.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionNoAmmo.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionLowHealth.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateReloading.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionReloadingDone.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionHealthy.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMStateTransistionNoEnemy.h">
+      <Filter>Header Files\Agents\FSM Based\Statemachine\Transistions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

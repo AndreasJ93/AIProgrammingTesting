@@ -33,6 +33,7 @@ public:
 	float GetPositionY() const;
 	void SetPositionX(float position) const;
 	void SetPositionY(float position) const;
+	Entity* GetEntity() const;
 protected:
 	Entity* myEntity;
 	AllowedActions lastAction;
