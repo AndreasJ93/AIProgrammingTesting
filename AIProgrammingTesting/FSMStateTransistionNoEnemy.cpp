@@ -18,7 +18,7 @@ bool FSMStateTransistionNoEnemy::isValid(AIBase* myAI, std::vector<AIBase*> othe
 
 	for (auto Agents : otherAIs)
 	{
-		if (map->LineOfSight(xPos, yPos, int(floor(Agents->GetPositionX())), int(floor(Agents->GetPositionY()))))
+		if (Agents != myAI && map->LineOfSight(xPos, yPos, int(floor(Agents->GetPositionX())), int(floor(Agents->GetPositionY()))))
 			return false;
 	}
 	return true;

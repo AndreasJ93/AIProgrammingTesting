@@ -46,6 +46,11 @@ float AIBase::GetDamage(float distanceToTarget) const
 uint16_t AIBase::GetTarget() const
 {
 	return targetID;
+}
+
+void AIBase::SetTarget(uint16_t target)
+{
+	targetID = target;
 };
 
 float AIBase::GetAccuracy(float distanceToTarget) const

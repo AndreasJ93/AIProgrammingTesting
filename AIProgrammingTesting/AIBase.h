@@ -27,6 +27,7 @@ public:
 	float GetLife() const;
 	float GetDamage(float distanceToTarget) const;
 	uint16_t GetTarget() const;
+	void SetTarget(uint16_t target);
 	float GetAccuracy(float distanceToTarget) const;
 	void TakeDamage(float damage) const;
 	float GetPositionX() const;
