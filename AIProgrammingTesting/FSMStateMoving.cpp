@@ -1,4 +1,5 @@
 ﻿#include "FSMStateMoving.h"
+#include "FSMStateTransistionBase.h"
 
 FSMStateMoving::FSMStateMoving()
 {
@@ -7,7 +8,6 @@ FSMStateMoving::FSMStateMoving()
 
 FSMStateMoving::~FSMStateMoving()
 {
-	/*Kept empty on purpose*/
 }
 
 void FSMStateMoving::onEnter(AIBase* myAI)

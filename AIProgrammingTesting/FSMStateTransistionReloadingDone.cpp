@@ -26,5 +26,5 @@ FSMStateBase* FSMStateTransistionReloadingDone::getNextState()
 
 void FSMStateTransistionReloadingDone::onTransistion(AIBase* myAI)
 {
-	/*Kept empty on purpose*/
+	myAI->SetTarget(-1);
 }

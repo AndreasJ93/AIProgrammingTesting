@@ -20,13 +20,13 @@ bool FSMStateTransistionOnSight::isValid(AIBase* myAI, std::vector<AIBase*> othe
 	for (auto Agents : otherAIs)
 	{
 		++ID;
-		if (Agents != myAI && map->LineOfSight(xPos, yPos, int(floor(Agents->GetPositionX())), int(floor(Agents->GetPositionY()))))
+		if (Agents != myAI && Agents->GetLife() && map->LineOfSight(xPos, yPos, int(floor(Agents->GetPositionX())), int(floor(Agents->GetPositionY()))))
 		{
 			myAI->SetTarget(ID);
 			return true;
 		}
 	}
-	myAI->SetTarget(ID);
+	myAI->SetTarget(-1);
 	return false;
 }
 

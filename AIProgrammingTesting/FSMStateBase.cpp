@@ -7,6 +7,10 @@ FSMStateBase::FSMStateBase()
 
 FSMStateBase::~FSMStateBase()
 {
+	for (auto it : transistions)
+	{
+		delete it;
+	}
 }
 
 FSMStateBase* FSMStateBase::checkTransistions(AIBase* myAI, std::vector<AIBase*> otherAIs, Map2D* map)

@@ -1,5 +1,5 @@
 ﻿#include "FSMStateHealing.h"
-#include "AIBase.h"
+#include "FSMStateTransistionBase.h"
 FSMStateHealing::FSMStateHealing()
 {
 	/*Empty on purpose*/
@@ -7,7 +7,6 @@ FSMStateHealing::FSMStateHealing()
 
 FSMStateHealing::~FSMStateHealing()
 {
-	/*Empty on purpose*/
 }
 
 void FSMStateHealing::onEnter(AIBase* /*myAI*/)

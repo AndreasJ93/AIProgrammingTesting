@@ -15,8 +15,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	auto seed = time(nullptr);
 	srand(unsigned int(seed));
 
-	AISimulation simulation(hInstance, nCmdShow, 16, 8);
-	simulation.RunSimulation(20);
+	AISimulation simulation(hInstance, nCmdShow, 35, 20);
+	simulation.RunSimulation(20000);
 
 	return 0;
 }

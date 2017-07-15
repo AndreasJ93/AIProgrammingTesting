@@ -14,6 +14,4 @@ AllowedActions AIFSM::DecideAction(std::vector<AIBase*> allAIs, unsigned myID, M
 
 AIFSM::~AIFSM()
 {
-	if (myEntity)
-		delete myEntity;
 }

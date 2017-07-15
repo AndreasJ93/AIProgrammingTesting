@@ -25,5 +25,5 @@ FSMStateBase* FSMStateTransistionHealthy::getNextState()
 
 void FSMStateTransistionHealthy::onTransistion(AIBase* myAI)
 {
-	/*Kept empty on purpose*/
+	myAI->SetTarget(-1);
 }

@@ -16,6 +16,10 @@ FiniteStateMachine::FiniteStateMachine()
 	FSMStateMoving* movingState = new FSMStateMoving;
 	FSMStateHealing* healingState = new FSMStateHealing;
 	FSMStateReloading* reloadingState = new FSMStateReloading;
+	states.push_back(attackingState);
+	states.push_back(movingState);
+	states.push_back(healingState);
+	states.push_back(reloadingState);
 
 	/*Attacking State*/
 	FSMStateTransistionLowHealth* lowHealthTransistion = new FSMStateTransistionLowHealth;
@@ -51,6 +55,10 @@ FiniteStateMachine::FiniteStateMachine()
 FiniteStateMachine::~FiniteStateMachine()
 {
 	/*Need to be filled*/
+	for (auto it : states)
+	{
+		delete it;
+	}
 }
 
 AllowedActions FiniteStateMachine::update(AIBase* myAI, std::vector<AIBase*> otherAIs, Map2D* map)

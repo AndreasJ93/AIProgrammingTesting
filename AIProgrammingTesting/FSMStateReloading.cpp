@@ -1,4 +1,5 @@
 ﻿#include "FSMStateReloading.h"
+#include "FSMStateTransistionBase.h"
 
 FSMStateReloading::FSMStateReloading()
 {
@@ -7,7 +8,6 @@ FSMStateReloading::FSMStateReloading()
 
 FSMStateReloading::~FSMStateReloading()
 {
-	/*Kept empty on purpose*/
 }
 
 void FSMStateReloading::onEnter(AIBase* myAI)

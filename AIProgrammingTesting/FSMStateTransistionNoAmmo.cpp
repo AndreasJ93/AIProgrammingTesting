@@ -26,5 +26,5 @@ FSMStateBase* FSMStateTransistionNoAmmo::getNextState()
 
 void FSMStateTransistionNoAmmo::onTransistion(AIBase* myAI)
 {
-	/*Kept empty on purpose*/
+	myAI->SetTarget(-1);
 }

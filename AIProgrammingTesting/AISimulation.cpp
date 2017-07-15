@@ -16,8 +16,10 @@ void AISimulation::InitializeAIs(int nrOfAgents)
 		D2DClass::BrushColour* brush = new D2DClass::BrushColour(temp);
 
 		d2d->SetBrushColour(agent.curveID, temp);
-		//agent.agent = new UtilityBasedAI(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
-		agent.agent = new AIFSM(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
+		if (i % 2)
+			agent.agent = new UtilityBasedAI(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
+		else
+			agent.agent = new AIFSM(rand() % 100 + 250, 1.0f*startPoint.first, 1.0f*startPoint.second);
 		agent.path = map->GetPathBetweenPoints(startPoint.first, startPoint.second, goal.first, goal.second);
 		agent.symbolID = map->AddSymbol(Map2D::Map2DSymbolData::CIRCLE, startPoint.first, startPoint.second, 0.25f * scaleX, 0.25f * scaleY);
 		agent.colour = brush;
@@ -215,6 +217,23 @@ void AISimulation::RunSimulation(int nrOfAgents)
 		d2d->ClearDataVector(symbolVectorID);
 		d2d->ClearMap();
 	}
+	AIBase* winner = nullptr;
+	for (auto AI : Agents)
+	{
+		if (AI.agent->GetLife())
+		{
+			winner = AI.agent;
+			break;
+		}
+	}
+	if (dynamic_cast<AIFSM*>(winner))
+	{
+		d2d->AddText("Winner AI: Finite State Machine", 500.0f, 0.0f);
+	}
+	else
+	{
+		d2d->AddText("Winner AI: Utility Based", 500.0f, 0.0f);
+	}
 	d2d->UpdateText(numberOfTurnsID, std::string("Number of turns: " + std::to_string(numberOfTurnsDone)));
 	d2d->UpdateText(agentsAliveID, std::string("Agents Alive: " + std::to_string(nrOfAgentsAlive)));
 	d2d->BeginDrawing();
@@ -223,6 +242,7 @@ void AISimulation::RunSimulation(int nrOfAgents)
 		d2d->Update(AI.curveID);
 		d2d->Draw(AI.curveID);
 	}
+	d2d->DrawTextOnly();
 	d2d->EndDrawing();
 	while (d2d->run())
 	{
